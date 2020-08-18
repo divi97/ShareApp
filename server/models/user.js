@@ -13,16 +13,16 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Please Provide Your email'],
         match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     },
-    role: {
-        type: String,
-        enum: ['user', 'publisher'],
-        default: 'user',
-    },
     password: {
         type: String,
         required: [true, 'Please Provide Password'],
         minlength: 8,
-        select: false,
+        select: false
+    },
+    role: {
+        type: String,
+        enum: ['user', 'publisher'],
+        default: 'user'
     },
 
     friendList: {
