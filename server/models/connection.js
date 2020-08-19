@@ -7,6 +7,6 @@ mongoose.connect(config.dbUrl, { useNewUrlParser: true, useUnifiedTopology: true
     } else {
       console.log("Error connecting to database");
     }
-  });
+});
   
-  module.exports = mongoose;
+module.exports = mongoose;
