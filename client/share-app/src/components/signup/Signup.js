@@ -60,7 +60,7 @@ class Login extends Component {
             console.log(error)
           })   
         
-          window.location = '/'
+        window.location = '/'
     }
 
     handleBack = () => {

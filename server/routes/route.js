@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+//const Auth = require('../middleware/check-auth');
 const userModel = require('../models/user')
 const userOperations = require('../controllers/userOperations');
 
@@ -13,11 +14,21 @@ const storage = multer.diskStorage({
     }
 });
 
+const fileFilter = (req, file, cb) => {
+  if ((file.mimetype == 'image/jpeg') || (file.mimetype == 'image/png') || (file.mimetype == 'image/webp')) {
+    cb(null, true);
+  } else {
+    console.log('Only Image with jpeg or png extension');
+    cb(null, false);
+  }
+};
+
 const upload = multer({
     storage: storage,
     limits: {
       fileSize: 3000000
     },
+    fileFilter
 });
 
 // router.post('/posts', verifyToken, (req, res) => {
@@ -49,6 +60,10 @@ const upload = multer({
 
 router.post('/create', upload.single('profile'), userOperations.createUser);
 router.post('/login', userOperations.login)
+router.get('/userlist',userOperations.get_allusers)
+router.get('/activeusers', userOperations.get_activeusers);
+router.put('/updateblock/:id', userOperations.update_block)
+router.put('/updateonlinestatus/:id', userOperations.update_online);
 
 
 module.exports = router;

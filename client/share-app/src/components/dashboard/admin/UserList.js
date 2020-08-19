@@ -68,7 +68,7 @@ function UserList(props) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("http://localhost:1234/user/list")
+      const res = await axios.get("http://localhost:1234/userlist")
       setList(res.data.users)
     }
 
@@ -77,7 +77,7 @@ function UserList(props) {
 
   return (
     <div>
-      {/* <h1>List of Employees</h1> */}
+      <h1>Users List</h1>
       <hr style={{width: '60%'}}/>
       <br />
       <React.Fragment>
@@ -86,7 +86,7 @@ function UserList(props) {
             <Table className={classes.table} aria-label="customized table">
               <TableHead>
                 <TableRow>
-                  <StyledTableCell>Id</StyledTableCell>
+                  <StyledTableCell></StyledTableCell>
                   <StyledTableCell>Name</StyledTableCell>
                   <StyledTableCell>Email</StyledTableCell>
                   <StyledTableCell>Joined On</StyledTableCell>
@@ -94,15 +94,15 @@ function UserList(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {list.map((row, index) => (
+                {list.map((row, index) => row.role === 'user' ? ( 
                   <StyledTableRow key={row.id}>
-                    <StyledTableCell component="th" scope="row">{index + 1}</StyledTableCell>
+                    <StyledTableCell component="th" scope="row">🢂</StyledTableCell>
                     <StyledTableCell>{row.name}</StyledTableCell>
                     <StyledTableCell>{row.email}</StyledTableCell>
                     <StyledTableCell>{row.createdAt}</StyledTableCell>
-                <StyledTableCell><StyledButtonV variant="outlined" type="button" onClick={() => { blockStateToggler(row.blocked) }}>{row.blocked}</StyledButtonV></StyledTableCell>
+                    <StyledTableCell><StyledButtonV variant="outlined" type="button" onClick={() => { blockStateToggler(row.blocked) }}>{row.blocked}</StyledButtonV></StyledTableCell>
                   </StyledTableRow>
-                ))}
+                ): (<tr key='0'></tr>))}
               </TableBody>
             </Table>
           </TableContainer>
