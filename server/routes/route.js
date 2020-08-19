@@ -32,9 +32,8 @@ function verifyToken(req, res, next) {
 
 router.post('/login', (req, res) => {
     const user = {
-        id:1,
-        username: 'brad',
-        email: 'brad@gmail.com'
+        email: 'brad@gmail.com', //req.body.email
+        password: 'vinove@123' //req.body.password
     }
 
     jwt.sign({user}, 'vinove' ,(err, token) => {
