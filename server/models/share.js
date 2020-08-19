@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('./connection');
 
 const shareSchema = new mongoose.Schema({
     from: {

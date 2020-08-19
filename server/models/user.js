@@ -1,4 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require('./connection');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -11,36 +13,27 @@ const userSchema = new mongoose.Schema({
         type: String,
         trim: String,
         required: [true, 'Please Provide Your email'],
+        unique: true,
         match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     },
     password: {
         type: String,
         required: [true, 'Please Provide Password'],
-        minlength: 8,
-        select: false
+        minlength: 8
     },
     role: {
         type: String,
-        enum: ['user', 'publisher'],
+        enum: ['admin', 'user'],
         default: 'user'
     },
-
-    friendList: {
-        type: []
-    },
-    files: {
-        type: []
+    profile: {
+        type: String,
+        required: [true, 'Please upload profile']
     },
     blocked: {
         type: String,
         enum: ['Y', 'N'],
         default: 'N'
-    },
-    sharedFile: {
-        type: []
-    },
-    confirmEmailToken: { 
-        type: String 
     },
     verified: {
         type: String,
@@ -48,12 +41,12 @@ const userSchema = new mongoose.Schema({
         default: 'N'
     },
     blocked: {
-        type:String,
+        type: String,
         enum: ['Y', 'N'],
         default: 'N'
     },
     online: {
-        type:String,
+        type: String,
         enum: ['Y', 'N'],
         default: 'N'
     },
@@ -62,6 +55,28 @@ const userSchema = new mongoose.Schema({
         default: Date.now,
     }
 })
+
+userSchema.pre('save', async function (next) {
+    this.password = await bcrypt.hash(this.password, 8);
+});
+
+userSchema.methods.getSignedJwtToken = function () {
+    return jwt.sign(
+        {
+            id: this._id,
+            email: this.email,
+            role: this.role,
+        },
+        'vinove',
+        {
+            expiresIn: '24h',
+        }
+    );
+};
+
+userSchema.methods.matchPassword = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password);
+};
 
 const userModel = mongoose.model("User", userSchema);
 module.exports = userModel
