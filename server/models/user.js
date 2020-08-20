@@ -1,6 +1,7 @@
 const mongoose = require('./connection');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const config = require('../constants/config')
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -30,25 +31,21 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please upload profile']
     },
+    friendList: {
+        type: Array,
+        default:[],
+    },
     blocked: {
-        type: String,
-        enum: ['Y', 'N'],
-        default: 'N'
+        type:Boolean,
+        default:false
     },
     verified: {
-        type: String,
-        enum: ['Y', 'N'],
-        default: 'N'
-    },
-    blocked: {
-        type: String,
-        enum: ['Y', 'N'],
-        default: 'N'
+        type:Boolean,
+        default:false
     },
     online: {
-        type: String,
-        enum: ['Y', 'N'],
-        default: 'N'
+        type:Boolean,
+        default:false
     },
     createdAt: {
         type: Date,
@@ -67,9 +64,9 @@ userSchema.methods.getSignedJwtToken = function () {
             email: this.email,
             role: this.role,
         },
-        'vinove',
+        config.JWT_SECRET,
         {
-            expiresIn: '24h',
+            expiresIn: '2h',
         }
     );
 };

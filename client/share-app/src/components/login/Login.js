@@ -41,7 +41,7 @@ class Login extends Component {
             axios.post('http://localhost:1234/login', log)
             .then(response => {
                 console.log(response)
-                if(response.data.blocked === 'Y'){
+                if(response.data.blocked === true){
                     alert("Sorry! You cannot log in!!! Contact the admin")
                     window.location = '/'
                 } else {

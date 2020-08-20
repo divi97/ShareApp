@@ -7,7 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import TablePagination from '@material-ui/core/TablePagination';
+// import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
@@ -94,20 +94,21 @@ function UserList(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {list.map((row, index) => row.role === 'user' ? ( 
+                {list.map((row, index) => (
                   <StyledTableRow key={row.id}>
-                    <StyledTableCell component="th" scope="row">🢂</StyledTableCell>
+                    <StyledTableCell component="th" scope="row">⇨</StyledTableCell>
                     <StyledTableCell>{row.name}</StyledTableCell>
                     <StyledTableCell>{row.email}</StyledTableCell>
                     <StyledTableCell>{row.createdAt}</StyledTableCell>
-                    <StyledTableCell><StyledButtonV variant="outlined" type="button" onClick={() => { blockStateToggler(row.blocked) }}>{row.blocked}</StyledButtonV></StyledTableCell>
+                    <StyledTableCell><StyledButtonV variant="outlined" type="button" onClick={() => { blockStateToggler(row.blocked) }}>{row.blocked === 'true' ? 'UnBlock': 'Block'}</StyledButtonV></StyledTableCell>
                   </StyledTableRow>
-                ): (<tr key='0'></tr>))}
+                ))}
               </TableBody>
             </Table>
           </TableContainer>
         </StyledGrid>
       </React.Fragment>
+      <br/>
     </div>)
   }
 

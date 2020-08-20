@@ -18,13 +18,15 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(2),
     },
     footer: {
-        position: 'fixed',
-    height: 'auto',
-    backgroundColor: '#181818',
-    bottom: '0px',
-    left: '0px',
-    right: '0px',
-    marginBottom: '0px'
+        color:'#fff',
+        position: 'sticky',
+        height: 'auto',
+        backgroundColor: '#181818',
+        bottom: '0px',
+        left: '0px',
+        right: '0px',
+        marginTop: '20%',
+        marginBottom: '0px'
     },
 }));
 
@@ -40,11 +42,11 @@ export default function Footer() {
                     <Typography variant="h6" align="center" gutterBottom>
                         Developed with {<FavoriteIcon />}
                     </Typography>
-                    <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+                    <Typography variant="subtitle1" align="center" component="p">
                     Copyrights @ 2020. ShareIt. All rights reserved.
                     </Typography>
-                    <Link color="inherit" href="/aboutus">About Us</Link><br></br>
-                    <Link color="inherit" href="/tnc">Terms and Conditions</Link>
+                    <Link color="inherit" href="/aboutus" style={{textDecoration:'none'}}>About Us &nbsp;&nbsp;&nbsp;</Link>
+                    <Link color="inherit" href="/tnc" style={{textDecoration:'none'}}>Terms and Conditions</Link>
                 </footer>
             </Box>
         </div>
