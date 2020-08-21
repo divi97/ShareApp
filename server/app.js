@@ -8,22 +8,22 @@ const PORT = 1234;
 const app = express();
 
 //ROUTES
-const user = require('./routes/route');
+const user = require('./routes/userroute');
+const friend = require('./routes/friendroute');
 
 app.use(cors());
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
 //Route use
-app.use('/', user)
+app.use('/user', user)
+app.use('/friend', friend)
 
 app.use('/uploads', express.static('uploads'));
 
 app.use('/api/uploads*', (req, res, next) => {
     try {
       res.sendFile(__dirname + '/uploads' + req.params[0]);
-      
-  
     } catch (error) {
       next();
     }

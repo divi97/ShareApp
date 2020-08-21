@@ -33,7 +33,6 @@ const userSchema = new mongoose.Schema({
     },
     friendList: {
         type: Array,
-        default:[],
     },
     blocked: {
         type:Boolean,

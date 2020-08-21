@@ -26,7 +26,7 @@ exports.login = async (req, res, next) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
-    console.log(email, password);
+    //console.log(email, password);
 
     if (!email || !password) {
       return next(new ErrorResponse('Please Provide Email and Password', 400));
@@ -41,7 +41,7 @@ exports.login = async (req, res, next) => {
 
     if (!isMatch) return next(new ErrorResponse('Invalid Credentials', 401));
 
-    const token = user.getSignedJwtToken();
+    const token = await user.getSignedJwtToken();
 
     console.log(token);
     res.status(200).json({
@@ -56,17 +56,6 @@ exports.login = async (req, res, next) => {
     return next(new ErrorResponse(`${err.message}`, 500));
   }
 
-
-  // const user = {
-  //     email: logUser.email,
-  //     password: logUser.password
-  // }
-
-  // jwt.sign({user}, 'vinove' ,(err, token) => {
-  //     res.json({
-  //         token
-  //     })
-  // })
 }
 
 exports.get_allusers = (req, res, next) => {
@@ -96,17 +85,16 @@ exports.get_allusers = (req, res, next) => {
     });
 }
 
-
-
-exports.update_block = async(req,res,next) => {
+exports.update_blocked = async(req,res,next) => {
   try {
+    console.log(req.body.blockedStatus)
     const user = await userModel.findById(req.params.id);
     if (!user) {
       return next(new ErrorResponse(`No user`, 404));
     }
     user.blocked = user.blocked ? false : true;
     await userModel.findByIdAndUpdate(req.params.id, { blocked: user.blocked });
-    console.log(user);
+    //console.log(user);
     res.status(200).json(user);
   } catch (err) {
   return next(new ErrorResponse(`${err.message}`, 500));

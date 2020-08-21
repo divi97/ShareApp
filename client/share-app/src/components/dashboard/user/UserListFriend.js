@@ -36,7 +36,7 @@ const StyledGrid = withStyles((theme) => ({
     }
 }))(Grid)
 
-const StyledButtonV = withStyles(() => ({
+const StyledButtonAddFriend = withStyles(() => ({
     root: {
         color: '#3f51b5',
         borderColor: '#3f51b5',
@@ -57,18 +57,21 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const addFriend = (id) => {
-    console.log(id)
-}
 
 
 function UserListFriend(props) {
     const classes = useStyles();
     const [list, setList] = useState([]);
+    
+    const addFriend = (id) => {
+        const userid = localStorage.getItem("id")
+        axios.put(`http://localhost:1234/friend/addtofriendlist/${id}`,{id : userid})
+        alert("Your friend has been added successfully!!")
+    }
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await axios.get("http://localhost:1234/userlist")
+            const res = await axios.get("http://localhost:1234/user/userlist")
             setList(res.data.users)
         }
 
@@ -94,13 +97,13 @@ function UserListFriend(props) {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {list.map((row, index) => row.role === 'user' ? (
+                                {list.map((row, index) => row.id !== localStorage.getItem("id") ? (
                                     <StyledTableRow key={row.id}>
                                         <StyledTableCell component="th" scope="row">⇨</StyledTableCell>
                                         <StyledTableCell></StyledTableCell>
                                         <StyledTableCell>{row.name}</StyledTableCell>
                                         <StyledTableCell>{row.email}</StyledTableCell>
-                                        <StyledTableCell><StyledButtonV variant="outlined" type="button" onClick={() => { addFriend(row.id) }}>Add Friend</StyledButtonV></StyledTableCell>
+                                        <StyledTableCell><StyledButtonAddFriend variant="outlined" type="button" onClick={() => { addFriend(row.id) }}>Add Friend</StyledButtonAddFriend></StyledTableCell>
                                     </StyledTableRow>
                                 ) : (<tr key='0'></tr>))}
                             </TableBody>

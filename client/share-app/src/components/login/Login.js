@@ -38,7 +38,7 @@ class Login extends Component {
         const handleSubmit = () => {
             const log = this.state
             console.log(log)
-            axios.post('http://localhost:1234/login', log)
+            axios.post('http://localhost:1234/user/login', log)
             .then(response => {
                 console.log(response)
                 if(response.data.blocked === true){
@@ -50,8 +50,10 @@ class Login extends Component {
                     alert("Logged in successfully!")
                     
                     if(response.data.role === 'admin'){
+                        localStorage.setItem('id', response.data.id)
                         window.location = '/admindash'
                     } else {
+                        localStorage.setItem('id', response.data.id)
                         window.location = '/userdash'
                     }
                 }

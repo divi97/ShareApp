@@ -63,7 +63,7 @@ router.post('/login', userOperations.login)
 router.get('/userlist',userOperations.get_allusers)
 router.get('/activeusers', userOperations.get_activeusers);
 router.get('/usercount', userOperations.usercount);
-router.put('/updateblock/:id', userOperations.update_block)
+router.put('/updateblocked/:id', userOperations.update_blocked)
 router.put('/updateonlinestatus/:id', userOperations.update_online);
 
 

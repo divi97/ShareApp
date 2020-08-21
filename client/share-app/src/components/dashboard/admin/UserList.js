@@ -36,16 +36,28 @@ const StyledGrid = withStyles((theme) => ({
     }
 }))(Grid)
 
-const StyledButtonV = withStyles(() => ({
+const StyledButtonBlock = withStyles(() => ({
     root: {
-      color: '#3f51b5',
-      borderColor: '#3f51b5',
+      color: '#d63031',
+      borderColor: '#d63031',
       border: '1px solid',
       '&:hover': {
-        backgroundColor: '#D1C4E9',
-        borderColor: '#3f51b5'
+        backgroundColor: '#EF9A9A',
+        borderColor: '#d63031'
       }
     }
+}))(Button)
+
+const StyledButtonUnBlock = withStyles(() => ({
+  root: {
+    color: '#43A047',
+    borderColor: '#43A047',
+    border: '1px solid',
+    '&:hover': {
+      backgroundColor: '#A5D6A7',
+      borderColor: '#43A047'
+    }
+  }
 }))(Button)
 
 const useStyles = makeStyles((theme) => ({
@@ -57,8 +69,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const blockStateToggler = () => {
-
+const blockStateToggler = (blockedStatus, id) => {
+  console.log(id, blockedStatus)
+  blockedStatus = !blockedStatus
+  axios.put(`http://localhost:1234/user/updateblocked/${id}`, {blockedStatus:blockedStatus})
 }
 
 
@@ -68,7 +82,7 @@ function UserList(props) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("http://localhost:1234/userlist")
+      const res = await axios.get("http://localhost:1234/user/userlist")
       setList(res.data.users)
     }
 
@@ -100,7 +114,10 @@ function UserList(props) {
                     <StyledTableCell>{row.name}</StyledTableCell>
                     <StyledTableCell>{row.email}</StyledTableCell>
                     <StyledTableCell>{row.createdAt}</StyledTableCell>
-                    <StyledTableCell><StyledButtonV variant="outlined" type="button" onClick={() => { blockStateToggler(row.blocked) }}>{row.blocked === 'true' ? 'UnBlock': 'Block'}</StyledButtonV></StyledTableCell>
+                    <StyledTableCell>{row.blocked === false ? 
+                    (<StyledButtonBlock variant="outlined" type="button" onClick={() => { blockStateToggler(row.blocked, row.id) }}>Block</StyledButtonBlock>) : 
+                    (<StyledButtonUnBlock variant="outlined" type="button" onClick={() => { blockStateToggler(row.blocked, row.id) }}>Unblock</StyledButtonUnBlock>) }
+                    </StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>

@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-
-// const auths = {};
+const User = require('../models/user');
+const config = require('../constants/config')
 
 const handleError = async (error, next) => {
   if (error) {
@@ -22,7 +21,10 @@ exports.userAuth = async (req, res, next) => {
     if (req.headers.authorization) {
       const token = req.headers.authorization.split(' ')[1];
       if (token) {
-        const decodedToken = jwt.verify(token, 'vinove');
+        const decodedToken = jwt.verify(token, config.JWT_SECRET);
+        if (decodedToken.role !== 'user'){
+          throw new Error ('Unauthorised')
+        }
         req.userData = decodedToken;
         // const user = await User.findById(req.userData.id);
         next();
@@ -44,7 +46,10 @@ exports.adminAuth = async (req, res, next) => {
       const token = req.headers.authorization.split(' ')[1];
       // console.log(token);
       if (token) {
-        const decodedToken = jwt.verify(token, 'vinove');
+        const decodedToken = jwt.verify(token, config.JWT_SECRET);
+        if (decodedToken.role !== 'admin'){
+          throw new Error ('Unauthorised')
+        }
         req.userData = decodedToken;
         // console.log(req.userData)
         // const user = await User.findById(req.userData.id);

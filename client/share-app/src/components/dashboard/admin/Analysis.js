@@ -48,9 +48,9 @@ function Analysis () {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await axios.get("http://localhost:1234/activeusers")
+            const res = await axios.get("http://localhost:1234/user/activeusers")
             setActiveCount(res.data)
-            const resp = await axios.get("http://localhost:1234/usercount")
+            const resp = await axios.get("http://localhost:1234/user/usercount")
             setTotalCount(resp.data)
         }
 

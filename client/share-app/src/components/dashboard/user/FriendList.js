@@ -68,7 +68,7 @@ function FriendList(props) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await axios.get("http://localhost:1234/userlist")
+            const res = await axios.get("http://localhost:1234/friend/friendlist")
             setList(res.data.users)
         }
 

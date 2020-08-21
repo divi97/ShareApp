@@ -51,7 +51,7 @@ class Login extends Component {
         fd.append('password', this.state.password)
         fd.append('profile', this.state.profile)
         console.log(fd)
-        axios.post('http://localhost:1234/create', fd)
+        axios.post('http://localhost:1234/user/create', fd)
         .then(response => {
             console.log(response)
             alert(response)
