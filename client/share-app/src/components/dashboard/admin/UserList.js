@@ -69,25 +69,34 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const blockStateToggler = (blockedStatus, id) => {
-  console.log(id, blockedStatus)
-  blockedStatus = !blockedStatus
-  axios.put(`http://localhost:1234/user/updateblocked/${id}`, {blockedStatus:blockedStatus})
-}
 
 
 function UserList(props) {
-    const classes = useStyles();
-    const [list, setList] = useState([]);
-
+  const classes = useStyles();
+  const [list, setList] = useState([]);
+  // const [bstatus, setbstatus] = useState(false)
+  
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get("http://localhost:1234/user/userlist")
       setList(res.data.users)
     }
-
+    
     fetchData()
   }, []);
+  
+  const blockStateToggler = (blockedStatus, id) => {
+    console.log(id, blockedStatus)
+    blockedStatus = !blockedStatus
+    axios.put(`http://localhost:1234/user/updateblocked/${id}`, {blockedStatus:blockedStatus})
+    .then(res => {
+      console.log(res)
+      setList(res.data.users)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
 
   return (
     <div>

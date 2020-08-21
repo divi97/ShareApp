@@ -71,7 +71,8 @@ function UserListFriend(props) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await axios.get("http://localhost:1234/user/userlist")
+            const userid = localStorage.getItem("id")
+            const res = await axios.post(`http://localhost:1234/friend/userlistoffriend/${userid}`)
             setList(res.data.users)
         }
 

@@ -73,7 +73,7 @@ exports.get_allusers = (req, res, next) => {
             role:doc.role
           };
         })
-      };
+      }
       res.status(200).json(response)
       
     })
@@ -92,10 +92,28 @@ exports.update_blocked = async(req,res,next) => {
     if (!user) {
       return next(new ErrorResponse(`No user`, 404));
     }
-    user.blocked = user.blocked ? false : true;
+    user.blocked = req.body.blockedStatus
     await userModel.findByIdAndUpdate(req.params.id, { blocked: user.blocked });
     //console.log(user);
-    res.status(200).json(user);
+
+    userModel.find({role: 'user'}).select("_id name email createdAt blocked role")
+    .exec()
+    .then(docs => {
+      const response = {
+        users: docs.map(doc => {
+          return {
+            id: doc._id,
+            name: doc.name,
+            email: doc.email,
+            createdAt: doc.createdAt,
+            blocked: doc.blocked,
+            role:doc.role
+          }
+        })
+      }
+    
+    res.status(200).json(response)
+  })
   } catch (err) {
   return next(new ErrorResponse(`${err.message}`, 500));
   }
@@ -107,6 +125,7 @@ exports.update_online = async(req, res, next) => {
     if (!user) {
       return next(new ErrorResponse(`No user`, 404));
     }
+    // user.online = req.body.onlineStatus             // For changing status when user is logged in or logged out
     user.online = user.online ? false : true;
     await userModel.findByIdAndUpdate(req.params.id, { online: user.online });
     res.status(200).json(user);
@@ -117,8 +136,8 @@ exports.update_online = async(req, res, next) => {
 
 exports.get_activeusers = async(req, res, next) => {
   try {
-    let users = await userModel.find({ online: true });
-    users = users.length - 1 
+    let users = await userModel.find({ online: true, role: 'user' });
+    users = users.length
     if (users == 0) {
       return next(new ErrorResponse(`No user`, 404));
     }

@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Container from '@material-ui/core/Container'
 
-class Login extends Component {
+class Signup extends Component {
     constructor(props) {
         super(props);
 
@@ -53,14 +53,14 @@ class Login extends Component {
         console.log(fd)
         axios.post('http://localhost:1234/user/create', fd)
         .then(response => {
-            console.log(response)
-            alert(response)
+            alert(response.data.msg)
           })
           .catch(error => {
             console.log(error)
           })   
         
-        window.location = '/'
+          window.location = '/'
+       
     }
 
     handleBack = () => {
@@ -108,4 +108,4 @@ class Login extends Component {
     }
 }
 
-export default Login
+export default Signup
