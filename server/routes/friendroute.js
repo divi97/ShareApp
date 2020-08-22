@@ -6,4 +6,5 @@ const friendOperations = require('../controllers/friendOperatons')
 router.put('/addtofriendlist/:id', friendOperations.addToFriendList)
 router.post('/removefriend', friendOperations.removeFriend)
 router.post('/userlistoffriend/:id', friendOperations.getuserlistoffriend)
+
 module.exports = router

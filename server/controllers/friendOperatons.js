@@ -76,7 +76,8 @@ exports.removeFriend = async (req, res, next) => {
 exports.getuserlistoffriend = async (req, res, next) => {
   try {
 
-    await userModel.find({ role: 'user' }).select("_id name email")
+    userModel.find({ $and : [{_id: { $ne : req.params.id }},{role: 'user'}] }).select("_id name email")
+      .exec()
       .then(docs => {
         const response = {
           users: docs.map(doc => {
@@ -87,14 +88,15 @@ exports.getuserlistoffriend = async (req, res, next) => {
             }
           })
         }
+        console.log(response)
+        res.status(200).json(response)
       })
 
-    console.log(response)
+    
 
-    if (!user) {
-      return next(new ErrorResponse(`No users`, 404))
-    }
-    res.status(200).json(reponse)
+    // if (!user) {
+    //   return next(new ErrorResponse(`No users`, 404))
+    // }
   } catch (err) {
     return next(new ErrorResponse(`${err.message}`, 500))
   }

@@ -15,7 +15,10 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  if ((file.mimetype == 'image/jpeg') || (file.mimetype == 'image/png') || (file.mimetype == 'image/webp')) {
+  if (
+    // (file.mimetype == 'image/jpeg') || (file.mimetype == 'image/png') || (file.mimetype == 'image/webp')
+    file.mimetype.startWith('image')
+    ) {
     cb(null, true);
   } else {
     console.log('Only Image with jpeg or png extension');
