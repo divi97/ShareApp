@@ -10,6 +10,12 @@ exports.addToFriendList = async (req, res, next) => {
       return next(new ErrorResponse(`No user`, 404))
     }
 
+    //Check if both are friends previously or not
+    const found = from.friendList.includes(req.params.id)
+    if (found) {
+      return next(new ErrorResponse(`Already a friend`, 403))
+    }
+
     from.friendList.push(req.params.id)
     to.friendList.push(req.body.id)
 
@@ -56,18 +62,25 @@ exports.getFriendList = async (req, res, next) => {
 exports.removeFriend = async (req, res, next) => {
   try {
 
-    const user = await userModel.find({ _id: req.body.id }).select("friendList")
-    console.log(user)
+    const from = await userModel.findById(req.body.id)
+    const to = await userModel.findById(req.params.id)
 
-    user.friendList.map(async (id) => {
-      const friends = await userModel.findById(id)
+    if (!from || !to) {
+      return next(new ErrorResponse(`No user`, 404))
+    }
 
+    from.friendList.splice(from.friendList.indexOf(req.params.id), 1)
+    to.friendList.splice(to.friendList.indexOf(req.body.id), 1)
+
+    await userModel.findByIdAndUpdate(req.body.id, {
+      friendList: from.friendList
+    })
+    await userModel.findByIdAndUpdate(req.params.id, {
+      friendList: to.friendList
     })
 
-    if (!user) {
-      return next(new ErrorResponse(`No friends`, 404))
-    }
-    res.status(200).send("removed")
+    res.status(200).json({ msg: "Removed your friend" })
+    
   } catch (err) {
     return next(new ErrorResponse(`${err.message}`, 500))
   }
@@ -88,15 +101,9 @@ exports.getuserlistoffriend = async (req, res, next) => {
             }
           })
         }
-        console.log(response)
+        // console.log(response)
         res.status(200).json(response)
       })
-
-    
-
-    // if (!user) {
-    //   return next(new ErrorResponse(`No users`, 404))
-    // }
   } catch (err) {
     return next(new ErrorResponse(`${err.message}`, 500))
   }

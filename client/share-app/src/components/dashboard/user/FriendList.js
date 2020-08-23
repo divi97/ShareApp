@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -57,23 +57,34 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const removeFriend = (id) => {
-    console.log(id)
-}
 
 
 function FriendList(props) {
     const classes = useStyles();
     const [list, setList] = useState([]);
+    const [fid, setfId] = useState('');
+    
+    const removeFriend = useCallback((id) => {
+        console.log(id)
+        setfId(id)
+        const userid = localStorage.getItem("id")
+        axios.put(`http://localhost:1234/friend/removefriend/${id}`, {id : userid})
+        .then(response => {
+            console.log(response.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    },[])
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await axios.get("http://localhost:1234/friend/friendlist")
+            const res = await axios.post("http://localhost:1234/friend/friendlist")
             setList(res.data.users)
         }
 
         fetchData()
-    }, []);
+    }, [removeFriend]);
 
     return (
         <div>

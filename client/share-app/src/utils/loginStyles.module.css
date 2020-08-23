@@ -1,0 +1,53 @@
+label{
+    text-align: left;
+    color: #fff;
+    display: block;
+    width: 100%;
+    padding-top: 10px;
+    font-size: 1.2rem;
+    margin: 10px 0px 10px 50px;
+    position: relative;
+}
+
+hr {
+    border: 2px solid;
+    background-color:#181818;
+}
+
+h1{
+    color: #000;
+    font-size: 2rem;
+}
+
+.box {
+    background-color: #212121;
+    width: 65%;
+    padding: 20px;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    transform: translateX(-50%);
+    border-radius: 6px;   
+    margin-bottom: 5%; 
+}
+
+.infield {
+    display: block;
+    width: 90%;
+    padding-top: 15px;  
+    margin: 20px 0 0 0;
+    position: relative;
+    left: 45%;
+    transform: translateX(-50%);
+    background-color: #181818;
+    color: #fff !important;
+    border-radius: 5px;
+}
+
+.buttonlogin {
+    background :linear-gradient(45deg, #8e44ad 20%, #FF8E53 90%)
+}
+
+.buttonsignup {
+    background :linear-gradient(45deg, #FF8E53 30%, #ED4C67 90% )
+}

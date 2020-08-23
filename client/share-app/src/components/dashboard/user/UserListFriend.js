@@ -66,7 +66,14 @@ function UserListFriend(props) {
     const addFriend = (id) => {
         const userid = localStorage.getItem("id")
         axios.put(`http://localhost:1234/friend/addtofriendlist/${id}`,{id : userid})
-        alert("Your friend has been added successfully!!")
+        .then(response => {
+            console.log(response.data)
+            alert("Your friend has been added successfully!!")
+        })
+        .catch(err => {
+            console.log(err.data)
+            alert("Your friend is already in your friends list")
+        })
     }
 
     useEffect(() => {
