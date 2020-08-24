@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Container from '@material-ui/core/Container'
 import styles from '../../utils/loginStyles.module.css'
-// import { withStyles } from '@material-ui/core';
+// import { withStyles} from '@material-ui/core';
 
 class Login extends Component {
     constructor(props) {
@@ -80,6 +80,7 @@ class Login extends Component {
             //   }
             // })(TextField);
 
+
             return (
                 <>
                 <Container>
@@ -91,7 +92,7 @@ class Login extends Component {
 
                         <div>
                             <label> Email : </label>
-                            <TextField placeholder='Email' type='text' className={styles.infield} value={email} onChange={this.handleEmail} />
+                            <TextField autoFocus placeholder='Email' type='text' className={styles.infield} value={email} onChange={this.handleEmail} />
                         </div>
                         <div>
                             <label> Password : </label>

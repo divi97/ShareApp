@@ -10,6 +10,7 @@ const app = express();
 //ROUTES
 const user = require('./routes/userroute');
 const friend = require('./routes/friendroute');
+const files = require('./routes/fileroute');
 
 app.use(cors());
 app.use(bodyparser.urlencoded({ extended: false }));
@@ -18,6 +19,7 @@ app.use(bodyparser.json());
 //Route use
 app.use('/user', user)
 app.use('/friend', friend)
+app.use('/files', files)
 
 app.use('/uploads', express.static('uploads'));
 

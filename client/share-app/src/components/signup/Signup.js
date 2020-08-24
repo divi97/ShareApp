@@ -58,7 +58,7 @@ class Signup extends Component {
           .catch(error => {
             console.log(error)
           })   
-        
+          alert("Registered Successfully!!")
           window.location = '/'
        
     }
@@ -82,7 +82,7 @@ class Signup extends Component {
             <form>
                 <div>
                     <label> Name : </label>
-                    <TextField placeholder='Name' type='text' alue={name} onChange={this.handleName} />
+                    <TextField autoFocus placeholder='Name' type='text' alue={name} onChange={this.handleName} />
                 </div>
                 <div>
                     <label> Email : </label>

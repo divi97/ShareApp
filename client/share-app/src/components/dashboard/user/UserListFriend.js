@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
+import Avatar from '@material-ui/core/Avatar'
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -108,7 +109,7 @@ function UserListFriend(props) {
                                 {list.map((row, index) => row.id !== localStorage.getItem("id") ? (
                                     <StyledTableRow key={row.id}>
                                         <StyledTableCell component="th" scope="row">⇨</StyledTableCell>
-                                        <StyledTableCell></StyledTableCell>
+                                        <StyledTableCell><Avatar alt="" src={`http://localhost:1234/${row.profile}`} /></StyledTableCell>
                                         <StyledTableCell>{row.name}</StyledTableCell>
                                         <StyledTableCell>{row.email}</StyledTableCell>
                                         <StyledTableCell><StyledButtonAddFriend variant="outlined" type="button" onClick={() => { addFriend(row.id) }}>Add Friend</StyledButtonAddFriend></StyledTableCell>

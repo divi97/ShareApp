@@ -31,29 +31,28 @@ exports.addToFriendList = async (req, res, next) => {
   }
 }
 
+//// NOTE : Needs changing (how to access changed value of arr outside map() scope)
 exports.getFriendList = async (req, res, next) => {
   try {
-    const user = await userModel.findById(req.userData.id)
+    const user = await userModel.findById(req.body.id)
+    // console.log(user)
+    // console.log(user.friendList)
+
     if (!user) {
       return next(new ErrorResponse(`No user`, 404))
     }
-    user.friendList.map(async (id) => {
+    const response = user.friendList.map( async (id) => {
+      // console.log(id)
+
       const friend = await userModel.findById(id)
-      user.friendListData.push(friend);
-      await userModel.findByIdAndUpdate(req.userData.id, {
-        friendListData: user.friendListData
-      })
+      // console.log(friend)
+      return friend
+      // console.log(arr)
     });
-    const updatedUser = await userModel.findById(req.userData.id)
-    if (!updatedUser) {
-      return next(new ErrorResponse(`No user`, 404))
-    }
-    updatedUser.friendList = []
-    await userModel.findByIdAndUpdate(req.userData.id, {
-      friendList: updatedUser.friendList
-    });
-    // console.log(updatedUser.friendListData);
-    res.status(200).json(updatedUser.friendListData)
+
+    console.log(response)
+
+    res.status(200).json({frindlist: response})
   } catch (err) {
     return next(new ErrorResponse(`${err.message}`, 500))
   }
@@ -89,7 +88,7 @@ exports.removeFriend = async (req, res, next) => {
 exports.getuserlistoffriend = async (req, res, next) => {
   try {
 
-    userModel.find({ $and : [{_id: { $ne : req.params.id }},{role: 'user'}] }).select("_id name email")
+    userModel.find({ $and : [{_id: { $ne : req.params.id }},{role: 'user'}] }).select("_id name email profile")
       .exec()
       .then(docs => {
         const response = {
@@ -97,7 +96,8 @@ exports.getuserlistoffriend = async (req, res, next) => {
             return {
               id: doc._id,
               name: doc.name,
-              email: doc.email
+              email: doc.email,
+              profile: doc.profile
             }
           })
         }

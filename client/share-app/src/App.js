@@ -8,6 +8,16 @@ import UserDash from './components/dashboard/user/UserDash'
 import Footer from './components/footer/Footer'
 import AboutUs from './components/aboutus/AboutUs';
 import TermsNConditions from './components/termsncond/TermsNConditions';
+import ShareFiles from './components/sharefiles/ShareFiles'
+
+const logout = () =>{
+  localStorage.removeItem('token')
+  localStorage.removeItem('id')
+  localStorage.removeItem('role')
+  alert("Logged out Successfully!!")
+
+  //change online status to false
+}
 
 function App() {
   return (
@@ -19,6 +29,7 @@ function App() {
         <Route path='/userdash' render={() => <UserDash />} />
         <Route path='/aboutus' render={() => <AboutUs />} />
         <Route path='/tnc' render={() => <TermsNConditions />} />
+        <Route path='/sharefiles' render={() => <ShareFiles />} />
       </Switch>
       <Footer/>
     </div>

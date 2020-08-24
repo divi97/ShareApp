@@ -1,5 +1,8 @@
 const userModel = require("../models/user");
 const ErrorResponse = require('../utils/errorResponse');
+const mailer = require('../utils/mailer')
+const config = require('../constants/config');
+const jwt = require('jsonwebtoken')
 
 exports.createUser = async (req, res, next) => {
   try {
@@ -10,7 +13,12 @@ exports.createUser = async (req, res, next) => {
       password: req.body.password,
       profile: req.file.path
     }
-    await userModel.create(user);
+    const createdUser = await userModel.create(user);
+    const emailToken = createdUser.getSignedJwtToken()
+
+    mailer.main(req.body.email, emailToken)
+
+
     res.status(201).json({
       msg: 'User Created Successfully',
     });
@@ -157,5 +165,17 @@ exports.usercount = async(req, res, next) => {
     res.status(200).json(count);
   } catch (err) {
   return next(new ErrorResponse(`${err.message}`, 500));
+  }
+}
+
+exports.confirm = async(req, res) => {
+  try{
+    console.log(req.params.token)
+    const decodedToken = jwt.verify(req.params.token, config.JWT_SECRET)
+    console.log(decodedToken)
+    await userModel.findByIdAndUpdate(decodedToken.id, {verified: true})
+    res.redirect('http://localhost:3000')
+  } catch(error) {
+    res.send('error');
   }
 }

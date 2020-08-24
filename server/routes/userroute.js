@@ -16,7 +16,6 @@ const storage = multer.diskStorage({
 
 const fileFilter = (req, file, cb) => {
   if (
-    // (file.mimetype == 'image/jpeg') || (file.mimetype == 'image/png') || (file.mimetype == 'image/webp')
     file.mimetype.startsWith('image')
     ) {
     cb(null, true);
@@ -68,6 +67,6 @@ router.get('/activeusers', userOperations.get_activeusers);
 router.get('/usercount', userOperations.usercount);
 router.put('/updateblocked/:id', userOperations.update_blocked)
 router.put('/updateonlinestatus/:id', userOperations.update_online);
-
+router.get('/confirmation/:token', userOperations.confirm);
 
 module.exports = router;

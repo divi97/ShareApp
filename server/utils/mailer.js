@@ -1,38 +1,34 @@
 "use strict";
 const nodemailer = require("nodemailer");
+const config = require('../constants/config')
 
 // async..await is not allowed in global scope, must use a wrapper
-async function main() {
-  // Generate test SMTP service account from ethereal.email
-  // Only needed if you don't have a real mail account for testing
+async function main(email, emailToken) {
   // let testAccount = await nodemailer.createTestAccount();
-
+  const url = `http://localhost:1234/user/confirmation/${emailToken}`
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false, // true for 465, false for other ports
+    service:'gmail',
+    host: "smtp.gmail.com",
+    port: 465,
+    ssl: true,
     auth: {
-      user: 'crawford.herman62@ethereal.email', // generated ethereal user
-      pass: 'KXP6pQHJHGSJmGcHVq', // generated ethereal password
+      user: config.username,
+      pass: config.password
     },
   });
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: '"Crawford Herman" <crawford.herman62@ethereal.email>', // sender address
-    to: "divyansh971254.da@gmail.com", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world?</b>", // html body
+    from: transporter.user, 
+    to: email, 
+    subject: "Confirm Email",
+    html: `<h1>Confirm Email</h1><br><h3>Please click this link to confirm your email: <a href="${url}">Click here....</a>`,
   });
 
   console.log("Message sent: %s", info.messageId);
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-  // Preview only available when sending through an Ethereal account
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 }
 
 main().catch(console.error);
+
+module.exports = {main}
