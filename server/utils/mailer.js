@@ -2,11 +2,11 @@
 const nodemailer = require("nodemailer");
 const config = require('../constants/config')
 
-// async..await is not allowed in global scope, must use a wrapper
+
 async function main(email, emailToken) {
-  // let testAccount = await nodemailer.createTestAccount();
+
   const url = `http://localhost:1234/user/confirmation/${emailToken}`
-  // create reusable transporter object using the default SMTP transport
+
   let transporter = nodemailer.createTransport({
     service:'gmail',
     host: "smtp.gmail.com",
@@ -18,7 +18,7 @@ async function main(email, emailToken) {
     },
   });
 
-  // send mail with defined transport object
+
   let info = await transporter.sendMail({
     from: transporter.user, 
     to: email, 

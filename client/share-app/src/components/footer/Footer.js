@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
         bottom: '0px',
         left: '0px',
         right: '0px',
-        marginTop: '20%',
+        marginTop: '10%',
         marginBottom: '0px'
     },
 }));
@@ -39,12 +39,10 @@ export default function Footer() {
             <CssBaseline></CssBaseline>
             <Box>
                 <footer className={classes.footer}>
-                    <Typography variant="h6" align="center" gutterBottom>
+                    <Typography variant="h6" align="center">
                         Developed with {<FavoriteIcon />}
                     </Typography>
-                    <Typography variant="subtitle1" align="center" component="p">
-                    Copyrights @ 2020. ShareIt. All rights reserved.
-                    </Typography>
+                    <Typography variant="subtitle1" align="center" component="p">Copyrights @ 2020. ShareApp. All rights reserved.</Typography>
                     <Link color="inherit" href="/aboutus" style={{textDecoration:'none'}}>About Us &nbsp;&nbsp;&nbsp;</Link>
                     <Link color="inherit" href="/tnc" style={{textDecoration:'none'}}>Terms and Conditions</Link>
                 </footer>

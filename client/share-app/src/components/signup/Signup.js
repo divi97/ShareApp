@@ -3,6 +3,7 @@ import axios from 'axios'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Container from '@material-ui/core/Container'
+import styles from '../../utils/signupStyles.module.css'
 
 class Signup extends Component {
     constructor(props) {
@@ -53,7 +54,7 @@ class Signup extends Component {
         console.log(fd)
         axios.post('http://localhost:1234/user/create', fd)
         .then(response => {
-            alert(response.data.msg)
+            console.log(response.data)
           })
           .catch(error => {
             console.log(error)

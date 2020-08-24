@@ -32,31 +32,53 @@ exports.addToFriendList = async (req, res, next) => {
 }
 
 //// NOTE : Needs changing (how to access changed value of arr outside map() scope)
-exports.getFriendList = async (req, res, next) => {
-  try {
-    const user = await userModel.findById(req.body.id)
-    // console.log(user)
-    // console.log(user.friendList)
-
-    if (!user) {
-      return next(new ErrorResponse(`No user`, 404))
+exports.getFriendList = (req,res)=>{
+  userModel.findById((req.body.id),(err,doc)=>{
+    if(err){
+      console.log(err);
+      res.send("Error Occured while finding friend list");
     }
-    const response = user.friendList.map( async (id) => {
-      // console.log(id)
+    if(doc){
+      console.log(doc);
 
-      const friend = await userModel.findById(id)
-      // console.log(friend)
-      return friend
-      // console.log(arr)
-    });
-
-    console.log(response)
-
-    res.status(200).json({frindlist: response})
-  } catch (err) {
-    return next(new ErrorResponse(`${err.message}`, 500))
-  }
+      // var arr1 = new Array();
+      // for(let i=0;i<user.length;i++){
+      //   arr1.push(new Object({"":}))
+      // }
+    }
+  })
 }
+
+
+
+
+
+
+// exports.getFriendList = async (req, res, next) => {
+//   try {
+//     const user = await userModel.findById(req.body.id)
+//     console.log(user)
+//     // console.log(user.friendList)
+
+//     if (!user) {
+//       return next(new ErrorResponse(`No user`, 404))
+//     }
+//     const response = user.friendList.map( async (id) => {
+//       // console.log(id)
+
+//       const friend = await userModel.findById(id)
+//        //console.log(friend)
+//       return friend
+//       // console.log(arr)
+//     });
+
+//     // console.log(response)
+
+//     res.status(200).json({frindlist: response})
+//   } catch (err) {
+//     return next(new ErrorResponse(`${err.message}`, 500))
+//   }
+// }
 
 exports.removeFriend = async (req, res, next) => {
   try {

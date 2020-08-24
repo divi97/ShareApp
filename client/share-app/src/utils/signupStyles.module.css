@@ -45,13 +45,3 @@ h1{
     color: #fff !important;
     border-radius: 5px;
 }
-
-.buttonlogin {
-    background :linear-gradient(90deg, #8e44ad 20%, #FF8E53 90%);
-    color: #fff !important
-}
-
-.buttonsignup {
-    background :linear-gradient(45deg, #FF8E53 30%, #ED4C67 90% );
-    color: #fff !important
-}
