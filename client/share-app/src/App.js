@@ -9,19 +9,12 @@ import Footer from './components/footer/Footer'
 import AboutUs from './components/aboutus/AboutUs';
 import TermsNConditions from './components/termsncond/TermsNConditions';
 import ShareFiles from './components/sharefiles/ShareFiles'
-
-const logout = () =>{
-  localStorage.removeItem('token')
-  localStorage.removeItem('id')
-  localStorage.removeItem('role')
-  alert("Logged out Successfully!!")
-
-  //change online status to false
-}
+import Header from './components/header/Header'
 
 function App() {
   return (
     <div className="App">
+        <Header />
         <Switch>
         <Route exact path='/' render={() => <Login />} />
         <Route exact path='/signup' render={() => <Signup />} />

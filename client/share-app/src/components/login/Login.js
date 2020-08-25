@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Container from '@material-ui/core/Container'
 import styles from '../../utils/loginStyles.module.css'
-// import { withStyles} from '@material-ui/core';
+// import Header from '../header/Header'
 
 class Login extends Component {
     constructor(props) {
         super(props);
-
+    
         this.state = {
             email: '',
             password: ''
@@ -32,10 +33,8 @@ class Login extends Component {
         })
     }
 
-
     render() {
         const { email, password } = this.state
-        // const { classes } = this.props
 
         const handleSubmit = () => {
             const log = this.state
@@ -45,10 +44,12 @@ class Login extends Component {
                     console.log(response)
                     if (response.data.verified === false) {
                         alert("Sorry! You cannot log in!!! Your Email is not verified")
+                        //this.props.history.push('/');
                         window.location = '/'
                     }
                     else if (response.data.blocked === true) {
                         alert("Sorry! You cannot log in!!! Contact the admin")
+                        //this.props.history.push('/');
                         window.location = '/'
                     } else {
                         localStorage.setItem('token', 'Bearer ' + response.data.token)
@@ -57,10 +58,12 @@ class Login extends Component {
 
                         if (response.data.role === 'admin') {
                             localStorage.setItem('id', response.data.id)
-                            window.location = '/admindash'
+                            this.props.history.push('/admindash');
+                            //window.location = '/admindash'
                         } else {
                             localStorage.setItem('id', response.data.id)
-                            window.location = '/userdash'
+                            this.props.history.push('/userdash');
+                            //window.location = '/userdash'
                         }
                     }
                 })
@@ -71,28 +74,13 @@ class Login extends Component {
         }
 
         const handleRedirect = () => {
-            window.location = '/signup'
-            // this.props.history.push('/signup')
+            //window.location = '/signup'
+            this.props.history.push('/signup')
         }
-
-        const aa = {
-            root: {
-                '& .MuiInputBaseInput': {
-                    color: '#90CAF9'
-                }
-            }
-        }
-        // CssTextField = withStyles({
-        //     root: {
-        //           '& .MuiInputBase-input': {
-        //         color: '#90CAF9'
-        //     }
-        //   }
-        // })(TextField);
 
 
         return (
-            <>
+            <>  
                 <Container>
                     <div>
                         <h1>Login</h1>
@@ -102,11 +90,11 @@ class Login extends Component {
 
                         <div>
                             <label> Email : </label>
-                            <TextField autoFocus style={aa.root} placeholder='Email' type='text' className={styles.infield} value={email} onChange={this.handleEmail} />
+                            <TextField  variant= "outlined" InputProps={{style:{color:"#90CAF9"}}} autoFocus placeholder='Email' type='text' className={styles.infield} value={email} onChange={this.handleEmail} />
                         </div>
                         <div>
                             <label> Password : </label>
-                            <TextField placeholder='Password' type='password' className={styles.infield} value={password} onChange={this.handlePassword} />
+                            <TextField variant= "outlined" InputProps={{style:{color:"#90CAF9"}}} placeholder='Password' type='password' className={styles.infield} value={password} onChange={this.handlePassword} />
                         </div>
                         <br />
                         <div>
@@ -121,4 +109,4 @@ class Login extends Component {
     }
 }
 
-export default Login
+export default withRouter(Login);

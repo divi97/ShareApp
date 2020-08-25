@@ -83,19 +83,19 @@ class Signup extends Component {
             <form className = {styles.box}>
                 <div>
                     <label> Name : </label>
-                    <TextField autoFocus placeholder='Name' type='text' className={styles.infield} value={name} onChange={this.handleName} />
+                    <TextField autoFocus placeholder='Name' InputProps={{style:{color:"#90CAF9"}}} variant= "outlined" type='text' className={styles.infield} value={name} onChange={this.handleName} />
                 </div>
                 <div>
                     <label> Email : </label>
-                    <TextField placeholder='Email' type='text' className={styles.infield} value={email} onChange={this.handleEmail} />
+                    <TextField placeholder='Email' type='text' variant= "outlined" InputProps={{style:{color:"#90CAF9"}}} className={styles.infield} value={email} onChange={this.handleEmail} />
                 </div>
                 <div>
                     <label> Password : </label>
-                    <TextField placeholder='Password' type='text' className={styles.infield} value={password} onChange={this.handlePassword} />
+                    <TextField placeholder='Password' variant= "outlined" type='text' InputProps={{style:{color:"#90CAF9"}}} className={styles.infield} value={password} onChange={this.handlePassword} />
                 </div>
                 <div>
                     <label> Profile Picture : </label>
-                    <input placeholder='profile' type='file' onChange={this.handleProfile} />
+                    <TextField  placeholder='profile' type='file' InputProps={{style:{color:"#90CAF9", padding: '14px 23px 14px'}}} className={styles.infield} onChange={this.handleProfile} />
                 </div><br/>
                 <div>
                 <Button type="button" variant="contained" className={styles.buttonsignup} onClick={this.handleSignup}>Signup</Button><br/><br />

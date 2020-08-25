@@ -56,6 +56,10 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
         padding: theme.spacing(1),
     },
+    image: {
+        width: theme.spacing(5.5),
+        height: theme.spacing(5.5)
+    }
 }));
 
 
@@ -111,7 +115,7 @@ function FriendList(props) {
                                 {list.map((row, index) => (
                                     <StyledTableRow key={row._id}>
                                         <StyledTableCell component="th" scope="row">⇨</StyledTableCell>
-                                        <StyledTableCell><Avatar alt="" src={`http://localhost:1234/${row.friendId.profile}`} /></StyledTableCell>
+                                        <StyledTableCell><Avatar className={classes.image} alt="" src={`http://localhost:1234/${row.friendId.profile}`} /></StyledTableCell>
                                         <StyledTableCell>{row.friendId.name}</StyledTableCell>
                                         <StyledTableCell>{row.friendId.email}</StyledTableCell>
                                         <StyledTableCell><StyledButtonV variant="outlined" type="button" onClick={() => { removeFriend(row._id) }}>Remove Friend</StyledButtonV></StyledTableCell>

@@ -56,6 +56,10 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
         padding: theme.spacing(1),
     },
+    image: {
+        width: theme.spacing(5.5),
+        height: theme.spacing(5.5)
+    }
 }));
 
 
@@ -109,7 +113,7 @@ function UserListFriend(props) {
                                 {list.map((row, index) => row.id !== localStorage.getItem("id") ? (
                                     <StyledTableRow key={row.id}>
                                         <StyledTableCell component="th" scope="row">⇨</StyledTableCell>
-                                        <StyledTableCell><Avatar alt="" src={`http://localhost:1234/${row.profile}`} /></StyledTableCell>
+                                        <StyledTableCell><Avatar className={classes.image} alt="" src={`http://localhost:1234/${row.profile}`} /></StyledTableCell>
                                         <StyledTableCell>{row.name}</StyledTableCell>
                                         <StyledTableCell>{row.email}</StyledTableCell>
                                         <StyledTableCell><StyledButtonAddFriend variant="outlined" type="button" onClick={() => { addFriend(row.id) }}>Add Friend</StyledButtonAddFriend></StyledTableCell>

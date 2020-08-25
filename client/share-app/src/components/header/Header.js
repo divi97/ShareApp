@@ -1,27 +1,35 @@
-import React from 'react';
-import { Layout, Menu } from 'antd';
-import './HeaderUSer.css';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
-const { Header} = Layout;
+import React from 'react'
+import "./Header.css";
+import logo from  "../../utils/companyLogo.png"
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import { withStyles } from '@material-ui/core';
+import Button from '@material-ui/core/Button'
 
-HeaderStart=()=>{
-  let href=window.location.href.split('/');
-  href=href[3];
+const StyledLogOut = withStyles(() => ({
+    root: {
+        color: "#e74c3c",
+        // marginLeft: '90%'
+    }
+}))(PowerSettingsNewIcon)
+
+function Header() {
+
+    const logout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('id')
+    localStorage.removeItem('role')
+    alert("Logged out Successfully!!")
+    window.location = '/'
+//   change online status to false
+}
+
     return (
-        <Layout className="layout">
-    <Header>
-      {/* <div className="logo" /> */}
-      {/* {
-            href=window.location.href.split('/');
-            href=href[3];
-      } */}
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['/'+href]} selectedKeys={['/'+href]} >
-        <Menu.Item key="/" ><Link  exact to='/'>Login</Link></Menu.Item>
-        <Menu.Item key="/userRegister" ><Link  to='/userRegister'>User Register</Link></Menu.Item>
-        <Menu.Item key="/busRegister" ><Link  to='/busRegister'>Bus Driver Register</Link></Menu.Item>
-        <Menu.Item key="/rickRegister" ><Link  to='/rickRegister'>E-Rick Driver Register</Link></Menu.Item>
-      </Menu>
-    </Header>
-    </Layout>
+        <nav className='header1'>
+            <img className='header1_logo' src={logo} alt=""/>
+            
+            {(localStorage.getItem('token')) ? (<Button style={{color:'#e74c3c'}} className='header_logout' onClick={logout()}><StyledLogOut  />Logout</Button>) :(<p></p>) }
+        </nav>
     )
 }
+
+export default Header
