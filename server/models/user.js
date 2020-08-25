@@ -2,6 +2,7 @@ const mongoose = require('./connection');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../constants/config')
+const Schema = mongoose.Schema;
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -31,9 +32,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please upload profile']
     },
-    friendList: {
-        type: Array,
-    },
+    friendList: [{
+        friendId: {type: Schema.Types.ObjectId, ref: 'User', default: null}
+    }],
     blocked: {
         type:Boolean,
         default:false

@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 function ShareFiles (props) {
 
+    useEffect(() => {
+        document.title = "Share Files"
+    })
+
+
     return (
         <>
-        <h1>Share Files</h1>
+        <h1 style={{ fontWeight: 'bold' }}>Share Files</h1>
         </>
     )
 }

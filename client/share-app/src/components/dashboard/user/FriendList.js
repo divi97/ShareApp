@@ -80,8 +80,10 @@ function FriendList(props) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await axios.post("http://localhost:1234/friend/friendlist")
-            setList(res.data.users)
+            const userid = localStorage.getItem("id")
+            const res = await axios.post(`http://localhost:1234/friend/friendlist/${userid}`)
+            console.log(res.data.friendlist)
+            setList(res.data.friendlist)
         }
 
         fetchData()
@@ -106,15 +108,15 @@ function FriendList(props) {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {list.map((row, index) => row.role === 'user' ? (
-                                    <StyledTableRow key={row.id}>
+                                {list.map((row, index) => (
+                                    <StyledTableRow key={row._id}>
                                         <StyledTableCell component="th" scope="row">⇨</StyledTableCell>
-                                        <StyledTableCell><Avatar alt="" src={`http://localhost:1234/${row.profile}`} /></StyledTableCell>
-                                        <StyledTableCell>{row.name}</StyledTableCell>
-                                        <StyledTableCell>{row.email}</StyledTableCell>
-                                        <StyledTableCell><StyledButtonV variant="outlined" type="button" onClick={() => { removeFriend(row.id) }}>Remove Friend</StyledButtonV></StyledTableCell>
+                                        <StyledTableCell><Avatar alt="" src={`http://localhost:1234/${row.friendId.profile}`} /></StyledTableCell>
+                                        <StyledTableCell>{row.friendId.name}</StyledTableCell>
+                                        <StyledTableCell>{row.friendId.email}</StyledTableCell>
+                                        <StyledTableCell><StyledButtonV variant="outlined" type="button" onClick={() => { removeFriend(row._id) }}>Remove Friend</StyledButtonV></StyledTableCell>
                                     </StyledTableRow>
-                                ) : (<tr key='0'></tr>))}
+                                ) )}
                             </TableBody>
                         </Table>
                     </TableContainer>

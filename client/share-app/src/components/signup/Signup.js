@@ -80,26 +80,26 @@ class Signup extends Component {
                 <h1>Signup</h1>
             </div>
             <hr style={{width: '50%'}}/>
-            <form>
+            <form className = {styles.box}>
                 <div>
                     <label> Name : </label>
-                    <TextField autoFocus placeholder='Name' type='text' alue={name} onChange={this.handleName} />
+                    <TextField autoFocus placeholder='Name' type='text' className={styles.infield} value={name} onChange={this.handleName} />
                 </div>
                 <div>
                     <label> Email : </label>
-                    <TextField placeholder='Email' type='text' value={email} onChange={this.handleEmail} />
+                    <TextField placeholder='Email' type='text' className={styles.infield} value={email} onChange={this.handleEmail} />
                 </div>
                 <div>
                     <label> Password : </label>
-                    <TextField placeholder='Password' type='text' value={password} onChange={this.handlePassword} />
+                    <TextField placeholder='Password' type='text' className={styles.infield} value={password} onChange={this.handlePassword} />
                 </div>
                 <div>
                     <label> Profile Picture : </label>
                     <input placeholder='profile' type='file' onChange={this.handleProfile} />
                 </div><br/>
                 <div>
-                <Button type="button" variant="contained" color="primary" onClick={this.handleSignup}>Signup</Button><br/><br />
-                <Button type="button" variant="contained" color="secondary" onClick={this.handleBack}>Back to Login</Button>
+                <Button type="button" variant="contained" className={styles.buttonsignup} onClick={this.handleSignup}>Signup</Button><br/><br />
+                <Button type="button" variant="contained" className={styles.buttonback} onClick={this.handleBack}>Back to Login</Button>
                 </div>
 
             </form>

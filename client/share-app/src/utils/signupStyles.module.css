@@ -39,9 +39,19 @@ h1{
     padding-top: 15px;  
     margin: 20px 0 0 0;
     position: relative;
-    left: 45%;
+    left: 47%;
     transform: translateX(-50%);
     background-color: #181818;
     color: #fff !important;
     border-radius: 5px;
+}
+
+.buttonback {
+    background :linear-gradient(45deg, #0c2461 20%, #3742fa 90%);
+    color: #fff !important
+}
+
+.buttonsignup {
+    background :linear-gradient(45deg, #1B5E20 30%, #43A047 90% );
+    color: #fff !important
 }

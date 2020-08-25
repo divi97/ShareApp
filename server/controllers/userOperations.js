@@ -1,6 +1,6 @@
 const userModel = require("../models/user");
 const ErrorResponse = require('../utils/errorResponse');
-const mailer = require('../utils/mailer')
+// const mailer = require('../utils/mailer')
 const config = require('../constants/config');
 const jwt = require('jsonwebtoken')
 
@@ -16,8 +16,26 @@ exports.createUser = async (req, res, next) => {
     const createdUser = await userModel.create(user);
     const emailToken = createdUser.getSignedJwtToken()
 
-    mailer.main(req.body.email, emailToken)
+    // mailer.main(req.body.email, emailToken)
+    const url = `http://localhost:1234/user/confirmation/${emailToken}`
 
+    let transporter = nodemailer.createTransport({
+      service:'gmail',
+      host: "smtp.gmail.com",
+      port: 465,
+      ssl: true,
+      auth: {
+        user: config.username,
+        pass: config.password
+      },
+    });
+
+    let info = await transporter.sendMail({
+      from: transporter.user, 
+      to: req.body.email, 
+      subject: "Confirm Email",
+      html: `<h1>Confirm Email</h1><br><h3>Please click this link to confirm your email: <a href="${url}">Click here....</a>`,
+    });
 
     res.status(201).json({
       msg: 'User Created Successfully',
@@ -48,6 +66,8 @@ exports.login = async (req, res, next) => {
     const isMatch = await user.matchPassword(password);
 
     if (!isMatch) return next(new ErrorResponse('Invalid Credentials', 401));
+    
+    // if(user.verified === false) return next(new ErrorResponse('Email not verified!!', 401));
 
     const token = await user.getSignedJwtToken();
 
@@ -57,8 +77,12 @@ exports.login = async (req, res, next) => {
       token,
       id: user._id,
       role: user.role,
-      blocked: user.blocked
+      blocked: user.blocked,
+      verified: user.verified
     });
+
+    user.online = true
+    await userModel.findOneAndUpdate({email}, { online: user.online })
 
   } catch (err) {
     return next(new ErrorResponse(`${err.message}`, 500));

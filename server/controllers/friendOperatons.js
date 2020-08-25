@@ -16,8 +16,8 @@ exports.addToFriendList = async (req, res, next) => {
       return next(new ErrorResponse(`Already a friend`, 403))
     }
 
-    from.friendList.push(req.params.id)
-    to.friendList.push(req.body.id)
+    from.friendList.push({friendId : req.params.id})
+    to.friendList.push({friendId : req.body.id})
 
     await userModel.findByIdAndUpdate(req.body.id, {
       friendList: from.friendList
@@ -31,54 +31,22 @@ exports.addToFriendList = async (req, res, next) => {
   }
 }
 
-//// NOTE : Needs changing (how to access changed value of arr outside map() scope)
-exports.getFriendList = (req,res)=>{
-  userModel.findById((req.body.id),(err,doc)=>{
-    if(err){
-      console.log(err);
-      res.send("Error Occured while finding friend list");
-    }
-    if(doc){
-      console.log(doc);
+exports.getFriendList = async (req, res, next) => {
+  try {
+    const populateQuery = [{ path: "friendList.friendId", select: '_id email name profile'}];    
+    
+    const user = await userModel.findById(req.params.id).populate(populateQuery)
+    
+    // console.log(user)
 
-      // var arr1 = new Array();
-      // for(let i=0;i<user.length;i++){
-      //   arr1.push(new Object({"":}))
-      // }
+    if (!user) {
+      return next(new ErrorResponse(`No user`, 404))
     }
-  })
+    res.status(200).json({friendlist: user.friendList})
+  } catch (err) {
+    return next(new ErrorResponse(`${err.message}`, 500))
+  }
 }
-
-
-
-
-
-
-// exports.getFriendList = async (req, res, next) => {
-//   try {
-//     const user = await userModel.findById(req.body.id)
-//     console.log(user)
-//     // console.log(user.friendList)
-
-//     if (!user) {
-//       return next(new ErrorResponse(`No user`, 404))
-//     }
-//     const response = user.friendList.map( async (id) => {
-//       // console.log(id)
-
-//       const friend = await userModel.findById(id)
-//        //console.log(friend)
-//       return friend
-//       // console.log(arr)
-//     });
-
-//     // console.log(response)
-
-//     res.status(200).json({frindlist: response})
-//   } catch (err) {
-//     return next(new ErrorResponse(`${err.message}`, 500))
-//   }
-// }
 
 exports.removeFriend = async (req, res, next) => {
   try {
@@ -86,13 +54,23 @@ exports.removeFriend = async (req, res, next) => {
     const from = await userModel.findById(req.body.id)
     const to = await userModel.findById(req.params.id)
 
+    console.log(from)
+
     if (!from || !to) {
       return next(new ErrorResponse(`No user`, 404))
     }
 
-    from.friendList.splice(from.friendList.indexOf(req.params.id), 1)
-    to.friendList.splice(to.friendList.indexOf(req.body.id), 1)
+    // from.friendList.splice(from.friendList.friendId.indexOf(req.params.id), 1)
+    // to.friendList.splice(to.friendList.friendId.indexOf(req.body.id), 1)
 
+    for(const i = 0;i < from.friendList.length; i++){
+      if (from.friendList.friendId._id === req.params.id){
+        from.friendList.splice(i,1)
+      }
+    }
+    console.log(from.friendList)
+
+    
     await userModel.findByIdAndUpdate(req.body.id, {
       friendList: from.friendList
     })
