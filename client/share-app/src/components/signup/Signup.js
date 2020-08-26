@@ -47,21 +47,21 @@ class Signup extends Component {
 
     handleSignup = () => {
         const fd = new FormData();
-        fd.append('name',this.state.name);
-        fd.append('email',this.state.email);
+        fd.append('name', this.state.name);
+        fd.append('email', this.state.email);
         fd.append('password', this.state.password)
         fd.append('profile', this.state.profile)
         console.log(fd)
         axios.post('http://localhost:1234/user/create', fd)
-        .then(response => {
-            console.log(response.data)
-          })
-          .catch(error => {
-            console.log(error)
-          })   
-          alert("Registered Successfully!!")
-          window.location = '/'
-       
+            .then(response => {
+                console.log(response.data)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        alert("Registered Successfully!!")
+        window.location = '/'
+
     }
 
     handleBack = () => {
@@ -71,39 +71,39 @@ class Signup extends Component {
     render() {
         const { name, email, password } = this.state
 
-    
+
 
         return (
             <>
-            <Container>
-            <div>
-                <h1>Signup</h1>
-            </div>
-            <hr style={{width: '50%'}}/>
-            <form className = {styles.box}>
-                <div>
-                    <label> Name : </label>
-                    <TextField autoFocus placeholder='Name' InputProps={{style:{color:"#90CAF9"}}} variant= "outlined" type='text' className={styles.infield} value={name} onChange={this.handleName} />
-                </div>
-                <div>
-                    <label> Email : </label>
-                    <TextField placeholder='Email' type='text' variant= "outlined" InputProps={{style:{color:"#90CAF9"}}} className={styles.infield} value={email} onChange={this.handleEmail} />
-                </div>
-                <div>
-                    <label> Password : </label>
-                    <TextField placeholder='Password' variant= "outlined" type='text' InputProps={{style:{color:"#90CAF9"}}} className={styles.infield} value={password} onChange={this.handlePassword} />
-                </div>
-                <div>
-                    <label> Profile Picture : </label>
-                    <TextField  placeholder='profile' type='file' InputProps={{style:{color:"#90CAF9", padding: '14px 23px 14px'}}} className={styles.infield} onChange={this.handleProfile} />
-                </div><br/>
-                <div>
-                <Button type="button" variant="contained" className={styles.buttonsignup} onClick={this.handleSignup}>Signup</Button><br/><br />
-                <Button type="button" variant="contained" className={styles.buttonback} onClick={this.handleBack}>Back to Login</Button>
-                </div>
+                <Container>
+                    <div>
+                        <h1>Signup</h1>
+                    </div>
+                    <hr style={{ width: '50%' }} />
+                    <form className={styles.box}>
+                        <div>
+                            <label> Name : </label>
+                            <TextField autoFocus placeholder='Name' InputProps={{ style: { color: "#90CAF9" } }} variant="outlined" type='text' className={styles.infield} value={name} onChange={this.handleName} />
+                        </div>
+                        <div>
+                            <label> Email : </label>
+                            <TextField placeholder='Email' type='text' variant="outlined" InputProps={{ style: { color: "#90CAF9" } }} className={styles.infield} value={email} onChange={this.handleEmail} />
+                        </div>
+                        <div>
+                            <label> Password : </label>
+                            <TextField placeholder='Password' variant="outlined" type='text' InputProps={{ style: { color: "#90CAF9" } }} className={styles.infield} value={password} onChange={this.handlePassword} />
+                        </div>
+                        <div>
+                            <label> Profile Picture : </label>
+                            <TextField placeholder='profile' type='file' InputProps={{ style: { color: "#90CAF9", padding: '14px 23px 14px' } }} className={styles.infield} onChange={this.handleProfile} />
+                        </div><br />
+                        <div>
+                            <Button type="button" variant="contained" className={styles.buttonsignup} onClick={this.handleSignup}>Signup</Button><br /><br />
+                            <Button type="button" variant="contained" className={styles.buttonback} onClick={this.handleBack}>Back to Login</Button>
+                        </div>
 
-            </form>
-            </Container>
+                    </form>
+                </Container>
             </>
         )
     }

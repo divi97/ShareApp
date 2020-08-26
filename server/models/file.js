@@ -10,6 +10,9 @@ const fileSchema = new mongoose.Schema({
     size: {
         type: String
     },
+    filepath: {
+        type: String
+    },
     userid: {
         type: String
     }

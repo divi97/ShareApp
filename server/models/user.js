@@ -33,22 +33,19 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Please upload profile']
     },
     friendList: [{
-        friendId: {type: Schema.Types.ObjectId, ref: 'User', default: null}
+        friendId: { type: Schema.Types.ObjectId, ref: 'User', default: null }
     }],
-    // fileList: [{
-    //     fileId: {type: Schema.Types.ObjectId, ref: 'file', default: null}
-    // }],
     blocked: {
-        type:Boolean,
-        default:false
+        type: Boolean,
+        default: false
     },
     verified: {
-        type:Boolean,
-        default:false
+        type: Boolean,
+        default: false
     },
     online: {
-        type:Boolean,
-        default:false
+        type: Boolean,
+        default: false
     },
     createdAt: {
         type: Date,

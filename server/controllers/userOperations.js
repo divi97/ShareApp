@@ -20,7 +20,7 @@ exports.createUser = async (req, res, next) => {
     const url = `http://localhost:1234/user/confirmation/${emailToken}`
 
     let transporter = nodemailer.createTransport({
-      service:'gmail',
+      service: 'gmail',
       host: "smtp.gmail.com",
       port: 465,
       ssl: true,
@@ -31,8 +31,8 @@ exports.createUser = async (req, res, next) => {
     });
 
     let info = await transporter.sendMail({
-      from: transporter.user, 
-      to: req.body.email, 
+      from: transporter.user,
+      to: req.body.email,
       subject: "Confirm Email",
       html: `<h1>Confirm Email</h1><br><h3>Please click this link to confirm your email: <a href="${url}">Click here....</a>`,
     });
@@ -66,7 +66,7 @@ exports.login = async (req, res, next) => {
     const isMatch = await user.matchPassword(password);
 
     if (!isMatch) return next(new ErrorResponse('Invalid Credentials', 401));
-    
+
     // if(user.verified === false) return next(new ErrorResponse('Email not verified!!', 401));
 
     const token = await user.getSignedJwtToken();
@@ -82,7 +82,7 @@ exports.login = async (req, res, next) => {
     });
 
     user.online = true
-    await userModel.findOneAndUpdate({email}, { online: user.online })
+    await userModel.findOneAndUpdate({ email }, { online: user.online })
 
   } catch (err) {
     return next(new ErrorResponse(`${err.message}`, 500));
@@ -91,7 +91,7 @@ exports.login = async (req, res, next) => {
 }
 
 exports.get_allusers = (req, res, next) => {
-  userModel.find({role: 'user'}).select("_id name email createdAt blocked role")
+  userModel.find({ role: 'user' }).select("_id name email createdAt blocked role")
     .exec()
     .then(docs => {
       const response = {
@@ -102,12 +102,12 @@ exports.get_allusers = (req, res, next) => {
             email: doc.email,
             createdAt: doc.createdAt,
             blocked: doc.blocked,
-            role:doc.role
+            role: doc.role
           };
         })
       }
       res.status(200).json(response)
-      
+
     })
     .catch(err => {
       console.log(err)
@@ -117,7 +117,7 @@ exports.get_allusers = (req, res, next) => {
     });
 }
 
-exports.update_blocked = async(req,res,next) => {
+exports.update_blocked = async (req, res, next) => {
   try {
     console.log(req.body.blockedStatus)
     const user = await userModel.findById(req.params.id);
@@ -128,30 +128,30 @@ exports.update_blocked = async(req,res,next) => {
     await userModel.findByIdAndUpdate(req.params.id, { blocked: user.blocked });
     //console.log(user);
 
-    userModel.find({role: 'user'}).select("_id name email createdAt blocked role")
-    .exec()
-    .then(docs => {
-      const response = {
-        users: docs.map(doc => {
-          return {
-            id: doc._id,
-            name: doc.name,
-            email: doc.email,
-            createdAt: doc.createdAt,
-            blocked: doc.blocked,
-            role:doc.role
-          }
-        })
-      }
-    
-    res.status(200).json(response)
-  })
+    userModel.find({ role: 'user' }).select("_id name email createdAt blocked role")
+      .exec()
+      .then(docs => {
+        const response = {
+          users: docs.map(doc => {
+            return {
+              id: doc._id,
+              name: doc.name,
+              email: doc.email,
+              createdAt: doc.createdAt,
+              blocked: doc.blocked,
+              role: doc.role
+            }
+          })
+        }
+
+        res.status(200).json(response)
+      })
   } catch (err) {
-  return next(new ErrorResponse(`${err.message}`, 500));
+    return next(new ErrorResponse(`${err.message}`, 500));
   }
 }
 
-exports.update_online = async(req, res, next) => {
+exports.update_online = async (req, res, next) => {
   try {
     const user = await userModel.findById(req.params.id);
     if (!user) {
@@ -162,11 +162,11 @@ exports.update_online = async(req, res, next) => {
     await userModel.findByIdAndUpdate(req.params.id, { online: user.online });
     res.status(200).json(user);
   } catch (err) {
-  return next(new ErrorResponse(`${err.message}`, 500));
+    return next(new ErrorResponse(`${err.message}`, 500));
   }
 }
 
-exports.get_activeusers = async(req, res, next) => {
+exports.get_activeusers = async (req, res, next) => {
   try {
     let users = await userModel.find({ online: true, role: 'user' });
     users = users.length
@@ -175,11 +175,11 @@ exports.get_activeusers = async(req, res, next) => {
     }
     res.status(200).json(users);
   } catch (err) {
-  return next(new ErrorResponse(`${err.message}`, 500));
+    return next(new ErrorResponse(`${err.message}`, 500));
   }
 }
 
-exports.usercount = async(req, res, next) => {
+exports.usercount = async (req, res, next) => {
   try {
     let count = await userModel.find({ role: 'user' });
     count = count.length
@@ -188,25 +188,25 @@ exports.usercount = async(req, res, next) => {
     }
     res.status(200).json(count);
   } catch (err) {
-  return next(new ErrorResponse(`${err.message}`, 500));
+    return next(new ErrorResponse(`${err.message}`, 500));
   }
 }
 
-exports.confirm = async(req, res) => {
-  try{
+exports.confirm = async (req, res) => {
+  try {
     console.log(req.params.token)
     const decodedToken = jwt.verify(req.params.token, config.JWT_SECRET)
     console.log(decodedToken)
-    await userModel.findByIdAndUpdate(decodedToken.id, {verified: true})
+    await userModel.findByIdAndUpdate(decodedToken.id, { verified: true })
     res.redirect('http://localhost:3000')
-  } catch(error) {
+  } catch (error) {
     res.send('error');
   }
 }
 
 exports.logout = async (req, res) => {
   try {
-    await userModel.findOneAndUpdate({email}, { online: false })
+    await userModel.findOneAndUpdate({ email }, { online: false })
     res.redirect('http://localhost:3000')
   } catch (error) {
     res.send('error')

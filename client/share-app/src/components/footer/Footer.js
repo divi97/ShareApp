@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(2),
     },
     footer: {
-        color:'#fff',
+        color: '#fff',
         position: 'sticky',
         height: 'auto',
         backgroundColor: '#181818',
@@ -43,8 +43,8 @@ export default function Footer() {
                         Developed with {<FavoriteIcon />}
                     </Typography>
                     <Typography variant="subtitle1" align="center" component="p">Copyrights @ 2020. ShareApp. All rights reserved.</Typography>
-                    <Link color="inherit" href="/aboutus" style={{textDecoration:'none'}}>About Us &nbsp;&nbsp;&nbsp;</Link>
-                    <Link color="inherit" href="/tnc" style={{textDecoration:'none'}}>Terms and Conditions</Link>
+                    <Link color="inherit" href="/aboutus" style={{ textDecoration: 'none' }}>About Us &nbsp;&nbsp;&nbsp;</Link>
+                    <Link color="inherit" href="/tnc" style={{ textDecoration: 'none' }}>Terms and Conditions</Link>
                 </footer>
             </Box>
         </div>

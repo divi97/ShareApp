@@ -3,13 +3,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Analysis from './Analysis'
 import UserList from './UserList'
-import UserSearch from './UserSearch';
+// import UserSearch from './UserSearch';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
-    }
-  }));
+  root: {
+    flexGrow: 1,
+  }
+}));
 
 
 function AdminDash() {
@@ -21,25 +21,25 @@ function AdminDash() {
 
   return (
     <>
-     <h1 style={{fontWeight:'bold'}}>Welcome Back,</h1>
-      <div style={{marginTop:'3%'}}/>
-    <div className={classes.root}>
-      <Grid item sm={12}>
+      <h1 style={{ fontWeight: 'bold' }}>Welcome Back,</h1>
+      <div style={{ marginTop: '3%' }} />
+      <div className={classes.root}>
+        {/* <Grid item sm={12}>
       <div style={{marginTop:'3%'}}/>
           <UserSearch/>
-        </Grid>
+        </Grid> */}
         {/* <hr style={{width: '80%'}}/> */}
         <Grid item sm={12}>
-        <div style={{marginTop:'3%'}}/>
+          <div style={{ marginTop: '3%' }} />
           <Analysis />
         </Grid>
-        <hr style={{width: '80%'}}/>
+        <hr style={{ width: '80%' }} />
         <Grid item sm={12}>
-        <div style={{marginTop:'3%'}}/>
+          <div style={{ marginTop: '3%' }} />
           <UserList />
-          <hr style={{width: '80%'}}/>
+          <hr style={{ width: '80%' }} />
         </Grid>
-    </div>
+      </div>
     </>
   );
 }

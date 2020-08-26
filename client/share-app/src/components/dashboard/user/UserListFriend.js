@@ -7,11 +7,14 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-// import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Avatar from '@material-ui/core/Avatar'
+import Container from '@material-ui/core/Container'
+import styles from './FriendSearchStyle.module.css';
+import SearchIcon from '@material-ui/icons/Search';
+// import TablePagination from '@material-ui/core/TablePagination';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -22,8 +25,8 @@ const StyledTableCell = withStyles((theme) => ({
         fontSize: 14,
     },
     root: {
-        textTransform:'none',
-        fontWeight:'bold'
+        textTransform: 'none',
+        fontWeight: 'bold'
     }
 }))(TableCell);
 
@@ -71,27 +74,33 @@ const useStyles = makeStyles((theme) => ({
 function UserListFriend(props) {
     const classes = useStyles();
     const [list, setList] = useState([]);
-    
-    const addFriend = (id) => {
+    const [search, setSearch] = useState(null)
+
+    const searchSpace = (event) => {
+        let keyword = event.target.value
+        setSearch(keyword)
+    }
+
+    const addFriend = async (id) => {
         const userid = localStorage.getItem("id")
-        axios.put(`http://localhost:1234/friend/addtofriendlist/${id}`,{id : userid})
-        .then(response => {
-            console.log(response.data)
-            alert("Your friend has been added successfully!!")
-        })
-        .catch(err => {
-            console.log(err.data)
-            alert("Your friend is already in your friends list")
-        })
+        await axios.put(`http://localhost:1234/friend/addtofriendlist/${id}`, { id: userid })
+            .then(response => {
+                console.log(response.data)
+                alert("Your friend has been added successfully!!")
+            })
+            .catch(err => {
+                console.log(err.data)
+                alert("Your friend is already in your friends list")
+            })
+    }
+
+    const fetchData = async () => {
+        const userid = localStorage.getItem("id")
+        const res = await axios.post(`http://localhost:1234/friend/userlistoffriend/${userid}`)
+        setList(res.data.users)
     }
 
     useEffect(() => {
-        const fetchData = async () => {
-            const userid = localStorage.getItem("id")
-            const res = await axios.post(`http://localhost:1234/friend/userlistoffriend/${userid}`)
-            setList(res.data.users)
-        }
-
         fetchData()
     }, []);
 
@@ -99,6 +108,23 @@ function UserListFriend(props) {
         <div>
             <h1>Users List</h1>
             <hr style={{ width: '60%' }} />
+            <br />
+            <br />
+
+            <Container>
+                <div className={styles.header}>
+                    <Grid container spacing={3}>
+                        <Grid item sm={3}>
+                            <h2 style={{ color: '#fff', marginTop: '2%' }}>Search Users</h2>
+                        </Grid>
+                        <Grid item sm={9}>
+                            <input type='text' className={styles.header_searchInput} onChange={searchSpace} />
+                            <Button><SearchIcon className={styles.header_searchIcon} /></Button>
+                        </Grid>
+                    </Grid>
+                </div>
+            </Container>
+            <br />
             <br />
             <React.Fragment>
                 <StyledGrid item md={8}>
@@ -114,7 +140,15 @@ function UserListFriend(props) {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {list.map((row, index) => row.id !== localStorage.getItem("id") ? (
+                                {list.filter((row) => {
+                                    if (search == null) {
+                                        return row
+                                    } else if (row.name.toLowerCase().includes(search.toLowerCase()) || row.email.toLowerCase().includes(search.toLowerCase())) {
+                                        return row
+                                    } else {
+                                        return null
+                                    }
+                                }).map((row, index) => row.id !== localStorage.getItem("id") ? (
                                     <StyledTableRow key={row.id}>
                                         <StyledTableCell component="th" scope="row">⇨</StyledTableCell>
                                         <StyledTableCell><Avatar className={classes.image} alt="" src={`http://localhost:1234/${row.profile}`} /></StyledTableCell>

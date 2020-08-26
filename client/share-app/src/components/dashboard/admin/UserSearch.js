@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import Container from '@material-ui/core/Container'
 import './Search.css';
 import SearchIcon from '@material-ui/icons/Search';
@@ -24,32 +24,32 @@ import Grid from '@material-ui/core/Grid'
 //     />
 // );
 
-function UserSearch () {
+function UserSearch() {
     const [search, setSearch] = useState({})
 
     const searchSpace = (event) => {
         let keyword = event.target.value;
-        setSearch({search:keyword})
-      }
+        setSearch({ search: keyword })
+    }
 
     return (
         <>
-        <Container>
-        <div className='header'>
-        <Grid container spacing={3}>
-            <Grid item sm={3}>
-            <h2 style={{color:'#fff', marginTop:'2%'}}>Search Users</h2>
-            </Grid>
-            <Grid item sm={9}>
-            <input type='text' className='header_searchInput' onChange={(e) => searchSpace(e) }/>
-            {/* <Select /> */}
-            <Button><SearchIcon className='header_searchIcon'/></Button>
-            </Grid>
-            </Grid>
-        </div>
-        </Container>
+            <Container>
+                <div className='header'>
+                    <Grid container spacing={3}>
+                        <Grid item sm={3}>
+                            <h2 style={{ color: '#fff', marginTop: '2%' }}>Search Users</h2>
+                        </Grid>
+                        <Grid item sm={9}>
+                            <input type='text' className='header_searchInput' onChange={(e) => searchSpace(e)} />
+                            {/* <Select /> */}
+                            <Button><SearchIcon className='header_searchIcon' /></Button>
+                        </Grid>
+                    </Grid>
+                </div>
+            </Container>
         </>
-    )    
+    )
 }
 
 export default UserSearch

@@ -10,7 +10,7 @@ import styles from '../../utils/loginStyles.module.css'
 class Login extends Component {
     constructor(props) {
         super(props);
-    
+
         this.state = {
             email: '',
             password: ''
@@ -77,7 +77,7 @@ class Login extends Component {
 
 
         return (
-            <>  
+            <>
                 <Container>
                     <div>
                         <h1>Login</h1>
@@ -87,11 +87,11 @@ class Login extends Component {
 
                         <div>
                             <label> Email : </label>
-                            <TextField  variant= "outlined" InputProps={{style:{color:"#90CAF9"}}} autoFocus placeholder='Email' type='text' className={styles.infield} value={email} onChange={this.handleEmail} />
+                            <TextField variant="outlined" InputProps={{ style: { color: "#90CAF9" } }} autoFocus placeholder='Email' type='text' className={styles.infield} value={email} onChange={this.handleEmail} />
                         </div>
                         <div>
                             <label> Password : </label>
-                            <TextField variant= "outlined" InputProps={{style:{color:"#90CAF9"}}} placeholder='Password' type='password' className={styles.infield} value={password} onChange={this.handlePassword} />
+                            <TextField variant="outlined" InputProps={{ style: { color: "#90CAF9" } }} placeholder='Password' type='password' className={styles.infield} value={password} onChange={this.handlePassword} />
                         </div>
                         <br />
                         <div>

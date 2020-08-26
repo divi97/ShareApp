@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -11,7 +11,7 @@ import HowToRegIcon from '@material-ui/icons/HowToReg';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      flexGrow: 1,
+        flexGrow: 1,
     }
 }));
 
@@ -20,7 +20,7 @@ const StyledPersonIcon = withStyles(() => ({
         fontSize: '2.5rem',
         color: '#fff'
     },
-  }
+}
 ))(PersonIcon);
 
 const StyledPersonOutlineIcon = withStyles(() => ({
@@ -28,7 +28,7 @@ const StyledPersonOutlineIcon = withStyles(() => ({
         fontSize: '2.5rem',
         color: '#2ecc71'
     },
-  }
+}
 ))(PersonOutlineIcon);
 
 const StyledHowToReg = withStyles(() => ({
@@ -36,11 +36,11 @@ const StyledHowToReg = withStyles(() => ({
         fontSize: '2.5rem',
         color: '#3498db'
     },
-  }
+}
 ))(HowToRegIcon);
 
 
-function Analysis () {
+function Analysis() {
     const classes = useStyles();
     const [ActiveCount, setActiveCount] = useState(0)
     const [TotalCount, setTotalCount] = useState(0)
@@ -59,37 +59,37 @@ function Analysis () {
 
     return (
         <>
-        <h1>Statistics</h1>
-        <hr style={{width: '60%'}}/>
-        <br />
-        <Container>
+            <h1>Statistics</h1>
+            <hr style={{ width: '60%' }} />
+            <br />
+            <Container>
 
-        <div className={classes.root}>
-        <Grid container spacing={3}>
-            <Grid item sm={4}>
-                <div className={styles.box}>
-                    <StyledPersonIcon/>
-                    <div><h2 style={{color:'#fff'}}>Users</h2></div>
-                    <div><h4 style={{color:'#fff'}}>10</h4></div>
+                <div className={classes.root}>
+                    <Grid container spacing={3}>
+                        <Grid item sm={4}>
+                            <div className={styles.box}>
+                                <StyledPersonIcon />
+                                <div><h2 style={{ color: '#fff' }}>Users</h2></div>
+                                <div><h4 style={{ color: '#fff' }}>10</h4></div>
+                            </div>
+                        </Grid>
+                        <Grid item sm={4}>
+                            <div className={styles.box}>
+                                <StyledPersonOutlineIcon />
+                                <div><h2 style={{ color: '#fff' }}>Online Users</h2></div>
+                                <div><h4 style={{ color: '#fff' }}>{ActiveCount}</h4></div>
+                            </div>
+                        </Grid>
+                        <Grid item sm={4}>
+                            <div className={styles.box}>
+                                <StyledHowToReg />
+                                <div><h2 style={{ color: '#fff' }}>Registered Users</h2></div>
+                                <div><h4 style={{ color: '#fff' }}>{TotalCount}</h4></div>
+                            </div>
+                        </Grid>
+                    </Grid>
                 </div>
-            </Grid>
-            <Grid item sm={4}>
-            <div className={styles.box}>
-                <StyledPersonOutlineIcon/>
-                <div><h2 style={{color:'#fff'}}>Online Users</h2></div>
-                <div><h4 style={{color:'#fff'}}>{ActiveCount}</h4></div>
-            </div>
-            </Grid>
-            <Grid item sm={4}>
-            <div className={styles.box}>
-                <StyledHowToReg />
-                <div><h2 style={{color:'#fff'}}>Registered Users</h2></div>
-                <div><h4 style={{color:'#fff'}}>{TotalCount}</h4></div>
-            </div>
-            </Grid>
-        </Grid>
-        </div>
-        </Container>
+            </Container>
         </>
     )
 }

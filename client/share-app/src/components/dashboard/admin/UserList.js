@@ -7,13 +7,13 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-// import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Container from '@material-ui/core/Container'
-import './Search.css';
+import styles from './Search.module.css';
 import SearchIcon from '@material-ui/icons/Search';
+// import TablePagination from '@material-ui/core/TablePagination';
 // import TableFooter from '@material-ui/core/TableFooter';
 // import IconButton from '@material-ui/core/IconButton';
 // import FirstPageIcon from '@material-ui/icons/FirstPage';
@@ -147,12 +147,12 @@ const useStyles = makeStyles((theme) => ({
 function UserList(props) {
   const classes = useStyles();
   const [list, setList] = useState([]);
-  const [search, setSearch] = useState({})
+  const [search, setSearch] = useState(null)
 
-    const searchSpace = (event) => {
-        let keyword = event.target.value;
-        setSearch({search:keyword})
-      }
+  const searchSpace = (event) => {
+    let keyword = event.target.value;
+    setSearch(keyword)
+  }
   // const [page, setPage] = useState(0);
   // const [rowsPerPage, setRowsPerPage] = useState(5);
   // const [bstatus, setbstatus] = useState(false)
@@ -168,27 +168,19 @@ function UserList(props) {
   //   setPage(0);
   // };
 
+  const fetchData = async () => {
+    const res = await axios.get("http://localhost:1234/user/userlist")
+    setList(res.data.users)
+  }
 
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await axios.get("http://localhost:1234/user/userlist")
-      setList(res.data.users)
-    }
-
     fetchData()
   }, []);
 
-  const blockStateToggler = (blockedStatus, id) => {
-    // console.log(id, blockedStatus)
+  const blockStateToggler = async (blockedStatus, id) => {
     blockedStatus = !blockedStatus
-    axios.put(`http://localhost:1234/user/updateblocked/${id}`, { blockedStatus: blockedStatus })
-      .then(res => {
-        // console.log(res)
-        setList(res.data.users)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    await axios.put(`http://localhost:1234/user/updateblocked/${id}`, { blockedStatus: blockedStatus })
+    fetchData()
   }
 
   return (
@@ -196,22 +188,23 @@ function UserList(props) {
       <h1>Users List</h1>
       <hr style={{ width: '60%' }} />
       <br />
+      <br />
 
       <Container>
-        <div className='header'>
-        <Grid container spacing={3}>
+        <div className={styles.header}>
+          <Grid container spacing={3}>
             <Grid item sm={3}>
-            <h2 style={{color:'#fff', marginTop:'2%'}}>Search Users</h2>
+              <h2 style={{ color: '#fff', marginTop: '2%' }}>Search Users</h2>
             </Grid>
             <Grid item sm={9}>
-            <input type='text' className='header_searchInput' onChange={(e) => searchSpace(e) }/>
-            {/* <Select /> */}
-            <Button><SearchIcon className='header_searchIcon'/></Button>
+              <input type='text' className={styles.header_searchInput} onChange={searchSpace} />
+              <Button><SearchIcon className={styles.header_searchIcon} /></Button>
             </Grid>
-            </Grid>
+          </Grid>
         </div>
-        </Container>
-
+      </Container>
+      <br />
+      <br />
       <React.Fragment>
         <StyledGrid item md={8}>
           <TableContainer component={Paper}>
@@ -227,24 +220,27 @@ function UserList(props) {
               </TableHead>
               <TableBody>
                 {
-                // (rowsPerPage > 0 ? list.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : list).map()
-                list.filter((row)=>{
-                  if(search == null)
-                    return row
-                  else if(row.name.includes(search)){
-                    return row}
-                }).map((row, index) => (
-                  <StyledTableRow key={row.id}>
-                    <StyledTableCell component="th" scope="row">⇨</StyledTableCell>
-                    <StyledTableCell>{row.name}</StyledTableCell>
-                    <StyledTableCell>{row.email}</StyledTableCell>
-                    <StyledTableCell>{row.createdAt.substring(0, 10)}</StyledTableCell>
-                    <StyledTableCell>{row.blocked === false ?
-                      (<StyledButtonBlock variant="outlined" type="button" onClick={() => { blockStateToggler(row.blocked, row.id) }}>Block</StyledButtonBlock>) :
-                      (<StyledButtonUnBlock variant="outlined" type="button" onClick={() => { blockStateToggler(row.blocked, row.id) }}>Unblock</StyledButtonUnBlock>)}
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
+                  // (rowsPerPage > 0 ? list.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : list).map()
+                  list.filter((row) => {
+                    if (search == null) {
+                      return row
+                    } else if (row.name.toLowerCase().includes(search.toLowerCase()) || row.email.toLowerCase().includes(search.toLowerCase())) {
+                      return row
+                    } else {
+                      return null
+                    }
+                  }).map((row, index) => (
+                    <StyledTableRow key={row.id}>
+                      <StyledTableCell component="th" scope="row">⇨</StyledTableCell>
+                      <StyledTableCell>{row.name}</StyledTableCell>
+                      <StyledTableCell>{row.email}</StyledTableCell>
+                      <StyledTableCell>{row.createdAt.substring(0, 10)}</StyledTableCell>
+                      <StyledTableCell>{row.blocked === false ?
+                        (<StyledButtonBlock variant="outlined" type="button" onClick={() => { blockStateToggler(row.blocked, row.id) }}>Block</StyledButtonBlock>) :
+                        (<StyledButtonUnBlock variant="outlined" type="button" onClick={() => { blockStateToggler(row.blocked, row.id) }}>Unblock</StyledButtonUnBlock>)}
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
                 {/* {emptyRows > 0 && (<TableRow style={{ height: 53 * emptyRows }}> <TableCell colSpan={6} /></TableRow>)} */}
               </TableBody>
               {/* <TableFooter>

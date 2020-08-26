@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button'
 
 
 function ShareFiles(props) {
+    
 
     useEffect(() => {
         document.title = "Share Files"
@@ -17,7 +18,8 @@ function ShareFiles(props) {
                 <hr style={{ width: '80%' }} />
                 <div>
                     <h3>Upload Files to drive</h3>
-                    <input type="file" name="files" multiple></input><br></br>
+                    <input type="file" name="files" multiple ></input><br></br>
+
                     <button>Upload</button>
                 </div>
                 <div>

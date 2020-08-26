@@ -1,8 +1,8 @@
 import React from 'react'
 // import {useEffect, useState} from 'react'
-// import axios from 'axios'
+import axios from 'axios'
 import "./Header.css";
-import logo from  "../../utils/companyLogo.png"
+import logo from "../../utils/companyLogo.png"
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import { withStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button'
@@ -10,29 +10,30 @@ import Button from '@material-ui/core/Button'
 const StyledLogOut = withStyles(() => ({
     root: {
         color: "#e74c3c",
-        // marginLeft: '90%'
+        // marginLeft: '80%'
     }
 }))(PowerSettingsNewIcon)
+
+
 
 function Header(props) {
 
     // const [loginState,setLoginState] = useState(false)
 
-//     const logout = () => {
-//     localStorage.removeItem('token')
-//     localStorage.removeItem('id')
-//     localStorage.removeItem('role')
-    
-//     //////   change online status to false
-//     axios.post('http://localhost:1234/user/logout')
-//     .then(response => {
-//         // alert("Logged out Successfully!!")
-//         window.location = '/'
-//     })
-//     .catch (err => {
-//         console.log(err)
-//     })
-// }
+    const logout = (e) => {
+        e.stopPropagation()
+        localStorage.clear()
+
+        //     //////   change online status to false
+        axios.post('http://localhost:1234/user/logout')
+            .then(response => {
+                // alert("Logged out Successfully!!")
+                window.location = '/'
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
 
     // useEffect(() => {
     //     localStorage.getItem('token') ? setLoginState(true) : false
@@ -40,10 +41,10 @@ function Header(props) {
 
     return (
         <nav className='header1'>
-            <img className='header1_logo' src={logo} alt=""/>
-            <h2 style={{color:'#fff'}}>ShareApp</h2>
-            
-            {(localStorage.getItem('token')) ? (<Button style={{color:'#e74c3c', marginLeft:'85%'}} className='header_logout' ><StyledLogOut  />Logout</Button>) :(<p></p>) }
+            <img className='header1_logo' src={logo} alt="" />
+            <h2 style={{ color: '#fff' }}>ShareApp</h2>
+
+            {(localStorage.getItem('token')) ? (<Button style={{ color: '#e74c3c', marginLeft: '80%' }} className='header_logout' ><StyledLogOut onClick={(e) => logout(e)} />Logout</Button>) : (<p></p>)}
         </nav>
     )
 }

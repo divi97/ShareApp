@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css'
 import { Switch, Route } from 'react-router-dom'
 import Login from './components/login/Login'
-import Signup from './components/signup/Signup' 
+import Signup from './components/signup/Signup'
 import AdminDash from './components/dashboard/admin/AdminDash'
 import UserDash from './components/dashboard/user/UserDash'
 import Footer from './components/footer/Footer'
@@ -14,8 +14,8 @@ import Header from './components/header/Header'
 function App() {
   return (
     <div className="App">
-        <Header />
-        <Switch>
+      <Header />
+      <Switch>
         <Route exact path='/' render={() => <Login />} />
         <Route exact path='/signup' render={() => <Signup />} />
         <Route path='/admindash' render={() => <AdminDash />} />
@@ -24,7 +24,7 @@ function App() {
         <Route path='/tnc' render={() => <TermsNConditions />} />
         <Route path='/sharefiles' render={() => <ShareFiles />} />
       </Switch>
-      <Footer/>
+      <Footer />
     </div>
   );
 }
