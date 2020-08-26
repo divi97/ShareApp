@@ -119,33 +119,12 @@ exports.get_allusers = (req, res, next) => {
 
 exports.update_blocked = async (req, res, next) => {
   try {
-    console.log(req.body.blockedStatus)
     const user = await userModel.findById(req.params.id);
     if (!user) {
       return next(new ErrorResponse(`No user`, 404));
     }
-    user.blocked = req.body.blockedStatus
-    await userModel.findByIdAndUpdate(req.params.id, { blocked: user.blocked });
-    //console.log(user);
-
-    userModel.find({ role: 'user' }).select("_id name email createdAt blocked role")
-      .exec()
-      .then(docs => {
-        const response = {
-          users: docs.map(doc => {
-            return {
-              id: doc._id,
-              name: doc.name,
-              email: doc.email,
-              createdAt: doc.createdAt,
-              blocked: doc.blocked,
-              role: doc.role
-            }
-          })
-        }
-
-        res.status(200).json(response)
-      })
+    await userModel.findByIdAndUpdate(req.params.id, { blocked: req.body.blockedStatus });
+    res.status(200).json({msg:"Block status updated successfully!!"})
   } catch (err) {
     return next(new ErrorResponse(`${err.message}`, 500));
   }

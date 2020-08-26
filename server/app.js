@@ -19,7 +19,7 @@ app.use(bodyparser.json());
 //Route use
 app.use('/user', user)
 app.use('/friend', friend)
-app.use('/files', files)
+app.use('/file', files)
 
 app.use('/uploads', express.static('uploads'));
 app.use("/fileuploads", express.static("fileuploads"));

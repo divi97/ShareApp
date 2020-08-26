@@ -38,6 +38,6 @@ const upload = multer({
 
 // Routes
 // router.post("/uploadfiles", upload.array("files"), fileShareOperations.uploadFiles)
-// router.get("/getuploadedfiles", fileShareOperations.getUploadedFiles)
+// router.post("/getuploadedfiles", fileShareOperations.getUploadedFiles)
 
 module.exports = router
