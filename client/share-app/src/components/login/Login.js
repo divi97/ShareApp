@@ -38,7 +38,7 @@ class Login extends Component {
 
         const handleSubmit = () => {
             const log = this.state
-            console.log(log)
+            // console.log(log)
             axios.post('http://localhost:1234/user/login', log)
                 .then(response => {
                     console.log(response)
@@ -59,11 +59,9 @@ class Login extends Component {
                         if (response.data.role === 'admin') {
                             localStorage.setItem('id', response.data.id)
                             this.props.history.push('/admindash');
-                            //window.location = '/admindash'
                         } else {
                             localStorage.setItem('id', response.data.id)
                             this.props.history.push('/userdash');
-                            //window.location = '/userdash'
                         }
                     }
                 })
@@ -74,7 +72,6 @@ class Login extends Component {
         }
 
         const handleRedirect = () => {
-            //window.location = '/signup'
             this.props.history.push('/signup')
         }
 

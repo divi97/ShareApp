@@ -10,7 +10,7 @@ const app = express();
 //ROUTES
 const user = require('./routes/userroute');
 const friend = require('./routes/friendroute');
-const files = require('./routes/fileroute');
+const files = require('./routes/fileshareroute');
 
 app.use(cors());
 app.use(bodyparser.urlencoded({ extended: false }));
@@ -22,6 +22,7 @@ app.use('/friend', friend)
 app.use('/files', files)
 
 app.use('/uploads', express.static('uploads'));
+app.use("/fileuploads", express.static("fileuploads"));
 
 app.use('/api/uploads*', (req, res, next) => {
     try {
@@ -29,6 +30,14 @@ app.use('/api/uploads*', (req, res, next) => {
     } catch (error) {
       next();
     }
+});
+
+app.use("/api/fileuploads*", (req, res, next) => {
+  try {
+    res.sendFile(__dirname + "/fileuploads" + req.params[0]);
+  } catch (error) {
+    next();
+  }
 });
 
 app.listen(PORT, () => {

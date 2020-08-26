@@ -21,6 +21,10 @@ const StyledTableCell = withStyles((theme) => ({
     body: {
         fontSize: 14,
     },
+    root: {
+        textTransform:'none',
+        fontWeight:'bold'
+    }
 }))(TableCell);
 
 const StyledTableRow = withStyles((theme) => ({
@@ -67,11 +71,11 @@ const useStyles = makeStyles((theme) => ({
 function FriendList(props) {
     const classes = useStyles();
     const [list, setList] = useState([]);
-    const [fid, setfId] = useState('');
+    // const [fid, setfId] = useState('');
     
     const removeFriend = useCallback((id) => {
         console.log(id)
-        setfId(id)
+        // setfId(id)
         const userid = localStorage.getItem("id")
         axios.put(`http://localhost:1234/friend/removefriend/${id}`, {id : userid})
         .then(response => {

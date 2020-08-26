@@ -35,6 +35,9 @@ const userSchema = new mongoose.Schema({
     friendList: [{
         friendId: {type: Schema.Types.ObjectId, ref: 'User', default: null}
     }],
+    // fileList: [{
+    //     fileId: {type: Schema.Types.ObjectId, ref: 'file', default: null}
+    // }],
     blocked: {
         type:Boolean,
         default:false

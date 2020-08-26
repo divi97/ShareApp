@@ -1,7 +1,6 @@
 const userModel = require("../models/user");
 const ErrorResponse = require('../utils/errorResponse');
 const nodemailer = require("nodemailer");
-// const mailer = require('../utils/mailer')
 const config = require('../constants/config');
 const jwt = require('jsonwebtoken')
 
@@ -17,7 +16,7 @@ exports.createUser = async (req, res, next) => {
     const createdUser = await userModel.create(user);
     const emailToken = createdUser.getSignedJwtToken()
 
-    // mailer.main(req.body.email, emailToken)
+    //// Email Confirmation Transporter
     const url = `http://localhost:1234/user/confirmation/${emailToken}`
 
     let transporter = nodemailer.createTransport({
@@ -202,5 +201,14 @@ exports.confirm = async(req, res) => {
     res.redirect('http://localhost:3000')
   } catch(error) {
     res.send('error');
+  }
+}
+
+exports.logout = async (req, res) => {
+  try {
+    await userModel.findOneAndUpdate({email}, { online: false })
+    res.redirect('http://localhost:3000')
+  } catch (error) {
+    res.send('error')
   }
 }

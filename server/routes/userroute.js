@@ -68,5 +68,6 @@ router.get('/usercount', userOperations.usercount);
 router.put('/updateblocked/:id', userOperations.update_blocked)
 router.put('/updateonlinestatus/:id', userOperations.update_online);
 router.get('/confirmation/:token', userOperations.confirm);
+router.post('/logout', userOperations.logout);
 
 module.exports = router;

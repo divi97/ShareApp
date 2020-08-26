@@ -1,16 +1,35 @@
 import React, { useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import FriendList from './FriendList'
 import UserListFriend from './UserListFriend'
 import FriendSearch from './FriendSearch'
+import { Button } from '@material-ui/core';
+
+const ButtonShare = withStyles(() => ({
+    root: {
+      marginLeft:'57%',
+      color: '#fff',
+      borderColor: '#000',
+      backgroundColor: '#000',
+      border: '1px solid',
+      '&:hover': {
+        backgroundColor: '#000',
+        borderColor: '#000'
+      }
+    }
+}))(Button)
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-    }
+    },
 }));
+
+const onShare = () => {
+    window.location='/sharefiles'
+}
 
 function UserDash() {
     const classes = useStyles();
@@ -20,8 +39,9 @@ function UserDash() {
     })
 
     return (
-        <>
+        <>  
             <h1 style={{ fontWeight: 'bold' }}>Welcome Back,</h1>
+            <ButtonShare variant="contained" onClick={() => {onShare()}}>Share Files</ButtonShare>
             <div style={{ marginTop: '3%' }} />
             <div className={classes.root}>
                 <Grid item sm={12}>

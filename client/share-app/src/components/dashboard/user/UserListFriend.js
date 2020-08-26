@@ -21,6 +21,10 @@ const StyledTableCell = withStyles((theme) => ({
     body: {
         fontSize: 14,
     },
+    root: {
+        textTransform:'none',
+        fontWeight:'bold'
+    }
 }))(TableCell);
 
 const StyledTableRow = withStyles((theme) => ({
@@ -103,10 +107,10 @@ function UserListFriend(props) {
                             <TableHead>
                                 <TableRow>
                                     <StyledTableCell></StyledTableCell>
-                                    <StyledTableCell>Profile Pic</StyledTableCell>
-                                    <StyledTableCell>Name</StyledTableCell>
-                                    <StyledTableCell>Email</StyledTableCell>
-                                    <StyledTableCell>Add Friend</StyledTableCell>
+                                    <StyledTableCell>PROFILE PICTURE</StyledTableCell>
+                                    <StyledTableCell>NAME</StyledTableCell>
+                                    <StyledTableCell>EMAIL</StyledTableCell>
+                                    <StyledTableCell>ADD FRIEND</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
