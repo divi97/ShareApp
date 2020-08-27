@@ -22,7 +22,7 @@ app.use('/friend', friend)
 app.use('/file', files)
 
 app.use('/uploads', express.static('uploads'));
-app.use("/fileuploads", express.static("fileuploads"));
+app.use('/fileuploads', express.static('fileuploads'));
 
 app.use('/api/uploads*', (req, res, next) => {
     try {

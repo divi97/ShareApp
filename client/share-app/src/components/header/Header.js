@@ -21,19 +21,21 @@ function Header(props) {
     // const [loginState,setLoginState] = useState(false)
 
     const logout = (e) => {
-        e.stopPropagation()
+        
         localStorage.clear()
 
-        //     //////   change online status to false
+        ////////   change online status to false
         axios.post('http://localhost:1234/user/logout')
             .then(response => {
                 // alert("Logged out Successfully!!")
+                console.log(response)
                 window.location = '/'
+                e.stopPropagation()
             })
             .catch(err => {
                 console.log(err)
             })
-    }
+    } 
 
     // useEffect(() => {
     //     localStorage.getItem('token') ? setLoginState(true) : false

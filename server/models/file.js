@@ -4,7 +4,7 @@ const fileSchema = new mongoose.Schema({
     filename: {
         type: String
     },
-    type: {
+    mimetype: {
         type: String
     },
     size: {

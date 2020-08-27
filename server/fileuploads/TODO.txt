@@ -1,0 +1,22 @@
+%like% --- live query for searching via name (setTimeout for atleast 1 sec b/w searchers)
+
+CanActive
+
+node-mailer
+
+
+file schema -
+unique id
+file name
+file content (base64)
+userid
+
+share schema -
+from --- userid
+to --- userid(whom iam sending)
+file id (unique id)
+
+ROBO MONGO
+
+
+https://medium.com/@svsh227/convert-image-into-base64-in-javascript-91768507ea0d

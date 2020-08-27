@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken')
 
 exports.createUser = async (req, res, next) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
     const user = {
       name: req.body.name,
       email: req.body.email,
@@ -59,7 +59,7 @@ exports.login = async (req, res, next) => {
     }
 
     const user = await userModel.findOne({ email }).select('+password');
-    console.log(user);
+    // console.log(user);
 
     if (!user) return next(new ErrorResponse('Invalid Credentials', 401));
 
@@ -71,7 +71,7 @@ exports.login = async (req, res, next) => {
 
     const token = await user.getSignedJwtToken();
 
-    console.log(token);
+    // console.log(token);
     res.status(200).json({
       msg: 'User logged in',
       token,
@@ -173,9 +173,9 @@ exports.usercount = async (req, res, next) => {
 
 exports.confirm = async (req, res) => {
   try {
-    console.log(req.params.token)
+    // console.log(req.params.token)
     const decodedToken = jwt.verify(req.params.token, config.JWT_SECRET)
-    console.log(decodedToken)
+    // console.log(decodedToken)
     await userModel.findByIdAndUpdate(decodedToken.id, { verified: true })
     res.redirect('http://localhost:3000')
   } catch (error) {
@@ -186,7 +186,7 @@ exports.confirm = async (req, res) => {
 exports.logout = async (req, res) => {
   try {
     await userModel.findOneAndUpdate({ email }, { online: false })
-    res.redirect('http://localhost:3000')
+    res.status(200).json({msg :'Logged out Successfully!!'})
   } catch (error) {
     res.send('error')
   }

@@ -69,7 +69,7 @@ function Analysis() {
                         <Grid item sm={4}>
                             <div className={styles.box}>
                                 <StyledPersonIcon />
-                                <div><h2 style={{ color: '#fff' }}>Users</h2></div>
+                                <div><h2 style={{ color: '#fff' }}>Monthly Active Users</h2></div>
                                 <div><h4 style={{ color: '#fff' }}>10</h4></div>
                             </div>
                         </Grid>

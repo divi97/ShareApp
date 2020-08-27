@@ -96,7 +96,7 @@ exports.removeFriend = async (req, res, next) => {
         to.friendList.splice(i, 1)
       }
     }
-    console.log(from.friendList, to.friendList)
+    // console.log(from.friendList, to.friendList)
     await userModel.findByIdAndUpdate(req.body.id, {
       friendList: from.friendList
     })

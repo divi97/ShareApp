@@ -28,11 +28,12 @@ function ShareFiles(props) {
 
     const handleSubmit = async () => {
         const fd = new FormData()
-        for (let file of this.multipleuploads) {
+        const id = localStorage.getItem('id')
+        for (let file of multiuploads) {
             fd.append('files', file)
         }
-        await axios.post('http://localhost:1234/file/uploadfiles', fd)
-        console.log(fd)
+        const res = await axios.post(`http://localhost:1234/file/uploadfiles/${id}`, fd)
+        alert(res.data.msg)
         fetchData()
     }
 
