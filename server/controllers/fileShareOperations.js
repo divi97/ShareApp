@@ -1,4 +1,5 @@
 const ErrorResponse = require('../utils/errorResponse');
+const userModel = require('../models/user')
 const fileShareModel = require('../models/fileshare')
 const fileModel = require('../models/file')
 
@@ -23,12 +24,12 @@ exports.uploadFiles = async (req, res, next) => {
                 userid: req.params.id,
             });
 
-        //     const user = await User.findById(req.userData.id);
-        //     user.files.push(createdFile._id);
-        //     // console.log(user.files);
-        //     await User.findByIdAndUpdate(req.userData.id, {
-        //         files: user.files,
-        //     });
+            //     const user = await User.findById(req.userData.id);
+            //     user.files.push(createdFile._id);
+            //     // console.log(user.files);
+            //     await User.findByIdAndUpdate(req.userData.id, {
+            //         files: user.files,
+            //     });
         }
         res.status(201).json({
             msg: "Files Uploaded Successfully to your Drive",
@@ -39,3 +40,48 @@ exports.uploadFiles = async (req, res, next) => {
         );
     }
 };
+
+// Fetch Uploaded Files
+exports.getUploadedFiles = async (req, res, next) => {
+    try {
+        fileModel.find({ userid: req.body.id }).select("_id filename filepath mimetype")
+        .exec()
+        .then(docs => {
+            const response = {
+                filelist: docs.map(doc => {
+                    return {
+                        id: doc.id,
+                        filename: doc.filename,
+                        filepath: doc.filepath,
+                        mimetype: doc.mimetype
+                    }
+                })
+            }
+            console.log(response)
+            res.status(200).json(response);
+        })
+    } catch (err) {
+        return next(
+            new ErrorResponse(`Error in fetching files: ${err.message}`, 400)
+        );
+    }
+};
+
+exports.shareFile = async (req, res, next) => {
+    try {
+        const to = await userModel.findOne({email: req.body.to})
+        if(!to) {
+            return next(new ErrorResponse(`'Receiver does not Exist`, 401))
+        }
+
+        const fileShared = {
+            from: req.body.from,
+            to: to._id,
+            fileid: req.body.fileid
+        }
+        await fileShareModel.create(fileShared)
+        res.status(200).json({ msg: 'File shared successfully!!'});
+    } catch (err) {
+        return next(new ErrorResponse(`${err.message}`, 500))
+    }
+}
