@@ -113,6 +113,7 @@ exports.removeFriend = async (req, res, next) => {
 
 exports.getuserlistoffriend = async (req, res, next) => {
   try {
+    const user = await userModel.findOne({_id: req.params.id})
 
     userModel.find({ $and: [{ _id: { $ne: req.params.id } }, { role: 'user' }] }).select("_id name email profile")
       .exec()
@@ -126,6 +127,14 @@ exports.getuserlistoffriend = async (req, res, next) => {
               profile: doc.profile
             }
           })
+        }
+        for (let i = 0; i < user.friendList.length; i++){
+          for( let j= 0; j< response.users.length; j++){
+            if(user.friendList[i].friendId._id.toString() == response.users[j].id){
+              response.users.splice(j,1)
+
+            }  
+          }
         }
         // console.log(response)
         res.status(200).json(response)
