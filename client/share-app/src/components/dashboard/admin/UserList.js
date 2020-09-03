@@ -148,6 +148,16 @@ function UserList(props) {
   const classes = useStyles();
   const [list, setList] = useState([]);
   const [search, setSearch] = useState(null)
+  
+  const setBlock  = async (id) => {
+    // const list = [...list]
+    setList(list.map(e=>{
+      if (e.id === id) {
+        e.blocked = !e.blocked
+      }
+      return e
+    }))
+  }
 
   const searchSpace = (event) => {
     let keyword = event.target.value;
@@ -180,7 +190,8 @@ function UserList(props) {
   const blockStateToggler = async (blockedStatus, id) => {
     blockedStatus = !blockedStatus
     await axios.put(`http://localhost:1234/user/updateblocked/${id}`, { blockedStatus: blockedStatus })
-    fetchData()
+    setBlock(id) 
+    // fetchData()
   }
 
   return (

@@ -5,8 +5,16 @@ const config = require('../constants/config')
 
 exports.addToFriendList = async (req, res, next) => {
   try {
-    const from = await userModel.findById(req.body.id)
-    const to = await userModel.findById(req.params.id)
+    const from = userModel.findById(req.body.id).then((f)=> {return f})
+    const to = userModel.findById(req.params.id).then((i)=> {return i})
+    // console.log(to, from)
+    // let from = await userModel.findById(req.body.id)
+    // let to = await userModel.findById(req.params.id)
+    // console.log(from, to)
+
+    let [a, b] = await Promise.all([from, to])
+    // .then((id)=>{console.log(id)}).catch((err)=>{console.log(err)})
+    console.log(a, b)
 
     if (!from || !to) {
       return next(new ErrorResponse(`No user`, 404))
@@ -23,12 +31,12 @@ exports.addToFriendList = async (req, res, next) => {
     from.friendList.push({ friendId: req.params.id })
     to.friendList.push({ friendId: req.body.id })
 
-    await userModel.findByIdAndUpdate(req.body.id, {
+    userModel.findByIdAndUpdate(req.body.id, {
       friendList: from.friendList
-    })
-    await userModel.findByIdAndUpdate(req.params.id, {
+    }).then(()=>{})
+    userModel.findByIdAndUpdate(req.params.id, {
       friendList: to.friendList
-    })
+    }).then(()=>{})
 
     ///// Notification for added friend, NOTE: Friend request accepting can also be implemented
 
@@ -45,7 +53,7 @@ exports.addToFriendList = async (req, res, next) => {
       },
     });
 
-    let info = await transporter.sendMail({
+    let info = transporter.sendMail({
       from: transporter.user,
       to: to.email,
       subject: "Friend Request",

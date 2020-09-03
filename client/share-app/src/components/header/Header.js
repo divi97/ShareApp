@@ -21,6 +21,7 @@ function Header(props) {
     // const [loginState,setLoginState] = useState(false)
 
     const logout = (e) => {
+        console.log("FUNCTION NOT WORKING")
         
         localStorage.clear()
 
