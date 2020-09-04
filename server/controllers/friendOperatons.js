@@ -5,16 +5,12 @@ const config = require('../constants/config')
 
 exports.addToFriendList = async (req, res, next) => {
   try {
-    const from = userModel.findById(req.body.id).then((f)=> {return f})
-    const to = userModel.findById(req.params.id).then((i)=> {return i})
-    // console.log(to, from)
-    // let from = await userModel.findById(req.body.id)
-    // let to = await userModel.findById(req.params.id)
-    // console.log(from, to)
+    let from = userModel.findById(req.body.id)
+    let to = userModel.findById(req.params.id)
 
-    let [a, b] = await Promise.all([from, to])
-    // .then((id)=>{console.log(id)}).catch((err)=>{console.log(err)})
-    console.log(a, b)
+    const response = await Promise.all([from, to])
+    from = response[0]
+    to = response[1]
 
     if (!from || !to) {
       return next(new ErrorResponse(`No user`, 404))
